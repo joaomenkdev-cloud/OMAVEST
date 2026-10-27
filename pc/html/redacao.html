@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redação ENEM — OMAVEST</title>
+    <meta name="description" content="Treine redação do ENEM com temas reais, cartilhas nota mil e correção por IA nas 5 competências.">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <meta name="theme-color" content="#0F1B17">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=omavest7">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --ink:      #0F1B17;
+            --ink-mid:  #1F3A30;
+            --parchment:#F5F7F4;
+            --cream:    #EEF2EE;
+            --gold:     #DCA60A;
+            --gold-lt:  #FFE9A8;
+            --ruby:     #8b1a2e;
+            --teal:     #3F8D70;
+            --teal-lt:  #D5EADF;
+            --border:   #DDE5E0;
+            --shadow:   rgba(15,27,23,0.12);
+        }
+
+        body { background: var(--parchment); color: var(--ink); font-family: 'DM Sans', sans-serif; }
+
+        /* ── PAGE HERO ── */
+        .redacao-hero {
+            background: var(--ink);
+            padding: 5rem 1.5rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .redacao-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(220,166,10,.18), transparent),
+                        radial-gradient(ellipse 40% 80% at 10% 80%, rgba(63,141,112,.12), transparent);
+        }
+        .redacao-hero .container { position: relative; z-index: 1; }
+        .breadcrumb { font-size:.8rem; color:rgba(255,255,255,.45); margin-bottom:1.25rem; display:flex; align-items:center; gap:.5rem; }
+        .breadcrumb a { color:rgba(255,255,255,.55); text-decoration:none; }
+        .breadcrumb a:hover { color:var(--gold); }
+        .hero-eyebrow { font-size:.75rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin-bottom:.75rem; }
+        .redacao-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem,5vw,3.5rem);
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.1;
+            max-width: 700px;
+        }
+        .redacao-hero p {
+            color: rgba(255,255,255,.6);
+            font-size: 1.05rem;
+            margin-top: .875rem;
+            max-width: 560px;
+            line-height: 1.65;
+        }
+
+        /* ── TABS ── */
+        .tabs-bar {
+            background: var(--cream);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            box-shadow: 0 2px 12px var(--shadow);
+        }
+        .tabs-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+        }
+        .tab-btn {
+            flex-shrink: 0;
+            padding: 1rem 1.5rem;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .875rem;
+            font-weight: 600;
+            color: #5F6F67;
+            background: none;
+            border: none;
+            border-bottom: 2.5px solid transparent;
+            cursor: pointer;
+            transition: color .18s, border-color .18s;
+            white-space: nowrap;
+        }
+        .tab-btn:hover { color: var(--ink); }
+        .tab-btn.active { color: var(--ink); border-bottom-color: var(--gold); }
+
+        /* ── MAIN LAYOUT ── */
+        .redacao-layout {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem 5rem;
+        }
+
+        /* ── SECTION TITLE ── */
+        .sec-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: .35rem;
+        }
+        .sec-sub { font-size: .9rem; color:#596660; margin-bottom: 2rem; }
+
+        /* ── TEMAS GRID ── */
+        .temas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+        }
+        .tema-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s, border-color .2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .tema-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 4px;
+            background: var(--card-color, var(--gold));
+        }
+        .tema-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 28px var(--shadow);
+            border-color: var(--card-color, var(--gold));
+        }
+        .tema-ano {
+            font-size: .7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            color: var(--ink-mid);
+            margin-bottom: .5rem;
+        }
+        .tema-titulo {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.4;
+            margin-bottom: .75rem;
+        }
+        .tema-desc {
+            font-size: .825rem;
+            color:#596660;
+            line-height: 1.55;
+            margin-bottom: 1rem;
+        }
+        .btn-escrever {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            padding: .55rem 1.1rem;
+            background: var(--ink);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: .825rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background .18s;
+        }
+        .btn-escrever:hover { background: var(--ink-mid); }
+
+        /* ── CARTILHAS ── */
+        .cartilhas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+        .cartilha-card {
+            background: var(--ink);
+            border-radius: 12px;
+            padding: 1.75rem;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .cartilha-card::after {
+            content: '';
+            position: absolute;
+            right: -20px; bottom: -20px;
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: rgba(220,166,10,.12);
+        }
+        .cartilha-version {
+            display: inline-block;
+            font-size: .65rem;
+            font-weight: 800;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            background: var(--gold);
+            color: var(--ink);
+            padding: .2rem .6rem;
+            border-radius: 4px;
+            margin-bottom: .875rem;
+        }
+        .cartilha-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: .4rem;
+            color: #fff;
+        }
+        .cartilha-meta {
+            font-size: .8rem;
+            color: rgba(255,255,255,.5);
+            margin-bottom: .3rem;
+        }
+        .cartilha-tema {
+            font-size: .825rem;
+            color: rgba(255,255,255,.75);
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+        }
+        .cartilha-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+        .btn-cartilha {
+            display: inline-flex;
+            align-items: center;
+            gap: .35rem;
+            padding: .5rem .875rem;
+            border-radius: 6px;
+            font-size: .775rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            text-decoration: none;
+            border: none;
+            transition: all .18s;
+        }
+        .btn-cartilha-gold { background: var(--gold); color: var(--ink); }
+        .btn-cartilha-gold:hover { background: #e0ab5a; }
+        .btn-cartilha-ghost { background: rgba(255,255,255,.1); color: rgba(255,255,255,.85); }
+        .btn-cartilha-ghost:hover { background: rgba(255,255,255,.18); }
+
+        /* ── EDITOR DE REDAÇÃO ── */
+        #painelEscrita { display: none; }
+        .editor-header {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px 12px 0 0;
+            padding: 1.5rem;
+            border-bottom: none;
+        }
+        .editor-tema-badge {
+            display: inline-block;
+            font-size: .7rem;
+            font-weight: 800;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            background: var(--gold-lt);
+            color: #6B4A0E;
+            padding: .2rem .7rem;
+            border-radius: 4px;
+            margin-bottom: .6rem;
+        }
+        .editor-tema-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--ink);
+            line-height: 1.35;
+        }
+        .editor-body {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-top: none;
+            padding: 1.5rem;
+        }
+        .redacao-textarea {
+            width: 100%;
+            min-height: 420px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.025rem;
+            line-height: 2;
+            color: var(--ink);
+            background: var(--parchment);
+            border: 1px solid #ddd8cf;
+            border-radius: 8px;
+            padding: 1.5rem 1.75rem;
+            resize: vertical;
+            outline: none;
+            transition: border-color .18s;
+            font-weight: 400;
+        }
+        .redacao-textarea:focus { border-color: var(--gold); }
+        .editor-footer {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 12px 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: .75rem;
+        }
+        .word-count { font-size: .825rem; color:#66717A; }
+        .word-count strong { color: var(--ink); }
+        .editor-actions { display: flex; gap: .75rem; }
+        .btn-corrigir {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            padding: .7rem 1.5rem;
+            background: linear-gradient(135deg, var(--ink) 0%, #1F3A30 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: .9rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: opacity .18s;
+            box-shadow: 0 4px 14px rgba(15,27,23,.25);
+        }
+        .btn-corrigir:hover { opacity: .88; }
+        .btn-voltar {
+            padding: .7rem 1.2rem;
+            background: var(--cream);
+            color: var(--ink-mid);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: .875rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* ── RESULTADO CORREÇÃO ── */
+        #painelResultado { display: none; }
+        .resultado-header {
+            background: var(--ink);
+            border-radius: 12px;
+            padding: 2.5rem 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .resultado-header::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 60% 80% at 80% 20%, rgba(220,166,10,.2), transparent);
+        }
+        .resultado-header > * { position: relative; z-index: 1; }
+        .resultado-label { font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-bottom: .5rem; }
+        .resultado-nota-total {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            letter-spacing: -.04em;
+        }
+        .resultado-nota-sub { font-size: .85rem; color: rgba(255,255,255,.45); margin-top: .25rem; }
+        .competencias-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: .75rem;
+            margin-top: 2rem;
+        }
+        .comp-box {
+            background: rgba(255,255,255,.07);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 8px;
+            padding: 1rem .75rem;
+            text-align: center;
+        }
+        .comp-num { font-size: 2rem; font-weight: 800; color: #fff; line-height: 1; }
+        .comp-label { font-size: .65rem; color: rgba(255,255,255,.45); margin-top: .3rem; text-transform: uppercase; letter-spacing: .05em; line-height: 1.3; }
+        .comp-name { font-size: .7rem; color: rgba(255,255,255,.7); margin-top: .2rem; font-weight: 600; }
+
+        .feedback-section {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        .feedback-section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+        .feedback-text {
+            font-size: .9375rem;
+            color: #374151;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        .resultado-actions {
+            display: flex;
+            gap: .75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .btn-nova-redacao {
+            flex: 1;
+            min-width: 160px;
+            padding: .875rem;
+            background: var(--ink);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: .9rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            text-align: center;
+        }
+        .btn-nova-redacao-ghost {
+            flex: 1;
+            min-width: 160px;
+            padding: .875rem;
+            background: var(--cream);
+            color: var(--ink-mid);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: .9rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            text-align: center;
+        }
+
+        /* ── LOADING ── */
+        .loading-overlay { position: fixed; inset: 0; background: rgba(15,27,23,.85); backdrop-filter: blur(8px); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; gap: 1rem; }
+        .loading-overlay h3 { color: #fff; font-size: 1.05rem; font-weight: 700; }
+        .loading-overlay p { color: rgba(255,255,255,.5); font-size: .85rem; max-width: 320px; text-align: center; }
+        .spin-gold { width: 44px; height: 44px; border: 3px solid rgba(220,166,10,.2); border-top-color: var(--gold); border-radius: 50%; animation: spin .8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* NOTA COLORS */
+        .nota-excellent { color: #16a34a; }
+        .nota-good      { color: #275E4C; }
+        .nota-medium    { color: #d97706; }
+        .nota-low       { color: #dc2626; }
+
+        /* TABS VISIBILITY */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        @media (max-width: 640px) {
+            .competencias-grid { grid-template-columns: repeat(3, 1fr); }
+            .temas-grid { grid-template-columns: 1fr; }
+            .cartilhas-grid { grid-template-columns: 1fr; }
+        }
+        .feedback-text { white-space: pre-line; }
+    </style>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<header>
+    <nav class="container">
+        <a class="logo" href="index.html" aria-label="OMAVEST — página inicial"><img src="../assets/logo-omavest-horizontal.png" alt="OMAVEST" width="186" height="40" decoding="async"></a>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fa-solid fa-house" style="opacity:.6;font-size:.8em"></i> Início</a></li>
+            <li><a href="inscricao.html"><i class="fa-solid fa-pen-to-square" style="opacity:.6;font-size:.8em"></i> Inscrições</a></li>
+            <li><a href="noticias.html"><i class="fa-solid fa-newspaper" style="opacity:.6;font-size:.8em"></i> Notícias</a></li>
+            <li><a href="provas.html"><i class="fa-solid fa-scroll" style="opacity:.6;font-size:.8em"></i> Provas</a></li>
+            <li><a href="cronograma.html"><i class="fa-solid fa-calendar-days" style="opacity:.6;font-size:.8em"></i> Cronograma</a></li>
+            <li><a href="simulados.html"><i class="fa-solid fa-brain" style="opacity:.6;font-size:.8em"></i> Simulado</a></li>
+            <li><a href="redacao.html" class="active"><i class="fa-solid fa-feather-pointed" style="opacity:.6;font-size:.8em"></i> Redação</a></li>
+            <li><a href="area-candidato.html" class="btn btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                Minha Área
+            </a></li>
+        </ul>
+        <button class="menu-toggle" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" id="menuIcon">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Início</a>
+        <a href="simulados.html">Simulados</a>
+        <a href="provas.html">Provas</a>
+        <a href="redacao.html">Redação</a>
+        <a href="area-candidato.html">Minha Área</a>
+    </div>
+</header>
+<main id="conteudo" tabindex="-1">
+
+<!-- HERO -->
+<section class="redacao-hero">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Início</a>
+            <i class="fa-solid fa-chevron-right" style="font-size:.6rem"></i>
+            <span>Redação</span>
+        </div>
+        <div class="hero-eyebrow">✦ Redação ENEM</div>
+        <h1>Escreva, pratique<br>e tire nota mil</h1>
+        <p>Temas reais do ENEM desde 2018, Cartilhas Nota Mil do Lucas Felpi e correção com IA avaliadora treinada nos critérios oficiais do INEP.</p>
+    </div>
+</section>
+
+<!-- TABS BAR -->
+<div class="tabs-bar">
+    <div class="tabs-inner">
+        <button class="tab-btn active" onclick="showTab('temas')"><i class="fa-solid fa-feather-pointed"></i> Praticar Redação</button>
+        <button class="tab-btn" onclick="showTab('cartilhas')"><i class="fa-solid fa-book-open"></i> Cartilhas Nota Mil</button>
+        <button class="tab-btn" onclick="showTab('como-funciona')"><i class="fa-solid fa-circle-info"></i> Como funciona</button>
+    </div>
+</div>
+
+<!-- MAIN -->
+<div class="redacao-layout">
+
+    <!-- PAINEL: SELEÇÃO DE TEMAS -->
+    <div id="painelTemas">
+
+        <!-- TAB: PRATICAR -->
+        <div id="tab-temas" class="tab-panel active">
+            <h2 class="sec-title">Escolha um tema</h2>
+            <p class="sec-sub">Temas reais das provas do ENEM de 2018 a 2024. Escreva sua redação e receba a correção por IA.</p>
+            <div class="temas-grid" id="temasGrid"></div>
+        </div>
+
+        <!-- TAB: CARTILHAS -->
+        <div id="tab-cartilhas" class="tab-panel">
+            <h2 class="sec-title">Cartilhas Nota Mil — Lucas Felpi</h2>
+            <p class="sec-sub">Redações nota 1000 reais do ENEM, reunidas e analisadas. Acesse gratuitamente.</p>
+            <div class="cartilhas-grid" id="cartilhasGrid"></div>
+        </div>
+
+        <!-- TAB: COMO FUNCIONA -->
+        <div id="tab-como-funciona" class="tab-panel">
+            <h2 class="sec-title">Como a correção funciona</h2>
+            <p class="sec-sub">A IA do OMAVEST avalia sua redação exatamente como um avaliador oficial do ENEM.</p>
+            <div style="max-width:700px">
+                <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:2rem;margin-bottom:1.25rem">
+                    <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:.75rem;color:var(--ink)">📋 As 5 Competências do ENEM</h3>
+                    <div style="display:flex;flex-direction:column;gap:.875rem">
+                        <div style="border-left:3px solid var(--gold);padding-left:1rem">
+                            <strong style="color:var(--ink)">Competência I — Norma culta da Língua Portuguesa</strong>
+                            <p style="font-size:.875rem;color:#5F6F67;margin-top:.25rem">Domínio da norma-padrão: ortografia, acentuação, pontuação, concordância, regência e crase.</p>
+                        </div>
+                        <div style="border-left:3px solid #3F8D70;padding-left:1rem">
+                            <strong style="color:var(--ink)">Competência II — Compreensão do tema</strong>
+                            <p style="font-size:.875rem;color:#5F6F67;margin-top:.25rem">Entender e desenvolver o tema proposto, sem tangenciar ou fugir.</p>
+                        </div>
+                        <div style="border-left:3px solid #10b981;padding-left:1rem">
+                            <strong style="color:var(--ink)">Competência III — Seleção de argumentos</strong>
+                            <p style="font-size:.875rem;color:#5F6F67;margin-top:.25rem">Selecionar e organizar informações, fatos e opiniões para defender um ponto de vista.</p>
+                        </div>
+                        <div style="border-left:3px solid #3F8D70;padding-left:1rem">
+                            <strong style="color:var(--ink)">Competência IV — Coesão textual</strong>
+                            <p style="font-size:.875rem;color:#5F6F67;margin-top:.25rem">Articulação das partes do texto com recursos coesivos (conectivos, pronomes, referências).</p>
+                        </div>
+                        <div style="border-left:3px solid var(--ruby);padding-left:1rem">
+                            <strong style="color:var(--ink)">Competência V — Proposta de intervenção</strong>
+                            <p style="font-size:.875rem;color:#5F6F67;margin-top:.25rem">Proposta detalhada de intervenção social respeitando os direitos humanos, com agente, ação, modo/meio, efeito e finalidade.</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:2rem;margin-bottom:1.25rem">
+                    <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:.75rem;color:var(--ink)">🎯 Como funciona a IA avaliadora</h3>
+                    <p style="font-size:.9rem;color:#374151;line-height:1.75">
+                        Nossa IA foi configurada como avaliador do INEP. Ela lê sua redação e atribui notas de <strong>0 a 200</strong> por competência (total de 0 a 1000), exatamente como na prova real. Em seguida, gera um <strong>feedback detalhado</strong> apontando pontos fortes, erros e como melhorar cada competência.
+                    </p>
+                    <div style="margin-top:1.25rem;background:var(--cream);border-radius:8px;padding:1rem 1.25rem;font-size:.875rem;color:#5F6F67">
+                        <strong style="color:var(--ink)">💡 Dica:</strong> Escreva redações completas (pelo menos 25 linhas) para receber uma avaliação mais precisa e útil.
+                    </div>
+                </div>
+                <div style="background:var(--ink);border-radius:12px;padding:2rem;color:#fff">
+                    <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:.5rem;">📚 Sobre as Cartilhas Nota Mil</h3>
+                    <p style="font-size:.875rem;color:rgba(255,255,255,.7);line-height:1.7">
+                        O Lucas Felpi e sua equipe coletam e publicam redações nota 1000 reais do ENEM — muito mais do que o INEP disponibiliza oficialmente. São mais de 200 redações reais anotadas, disponíveis gratuitamente para todos os estudantes.
+                    </p>
+                    <a href="https://www.lucasfelpi.com.br/redamil" target="_blank" style="display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;color:var(--gold);font-size:.85rem;font-weight:700;text-decoration:none">
+                        Acessar site do Lucas Felpi <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:.75rem"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PAINEL: EDITOR DE REDAÇÃO -->
+    <div id="painelEscrita">
+        <button class="btn-voltar" onclick="voltarTemas()" style="margin-bottom:1.5rem;display:flex;align-items:center;gap:.4rem">
+            <i class="fa-solid fa-arrow-left"></i> Voltar aos temas
+        </button>
+        <div class="editor-header">
+            <div class="editor-tema-badge" id="editorAno">ENEM 2024</div>
+            <div class="editor-tema-title" id="editorTema">Tema da redação</div>
+        </div>
+        <div class="editor-body">
+            <div style="margin-bottom:.75rem;font-size:.8rem;color:#66717A;font-style:italic">
+                <i class="fa-solid fa-circle-info" style="color:var(--gold)"></i>
+                Escreva sua redação dissertativo-argumentativa. Mínimo recomendado: 25 linhas (cerca de 400–600 palavras).
+            </div>
+            <textarea
+                id="redacaoTexto" aria-label="Texto da redação"
+                class="redacao-textarea"
+                placeholder="Inicie sua redação aqui...&#10;&#10;Lembre-se: introdução, desenvolvimento (2 parágrafos) e conclusão com proposta de intervenção."
+                oninput="atualizarContagem()"
+            ></textarea>
+        </div>
+        <div class="editor-footer">
+            <div class="word-count">
+                Palavras: <strong id="contPalavras">0</strong> &nbsp;|&nbsp;
+                Caracteres: <strong id="contChars">0</strong>
+            </div>
+            <div class="editor-actions">
+                <button class="btn-voltar" onclick="voltarTemas()">Cancelar</button>
+                <button class="btn-corrigir" onclick="corrigirRedacao()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Corrigir com IA
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAINEL: RESULTADO DA CORREÇÃO -->
+    <div id="painelResultado">
+        <button class="btn-voltar" onclick="voltarTemas()" style="margin-bottom:1.5rem;display:flex;align-items:center;gap:.4rem">
+            <i class="fa-solid fa-arrow-left"></i> Escolher outro tema
+        </button>
+
+        <div class="resultado-header">
+            <div class="resultado-label">Resultado da correção — ENEM</div>
+            <div class="resultado-nota-total" id="notaTotal">—</div>
+            <div class="resultado-nota-sub">pontos de 1000 possíveis</div>
+            <div class="competencias-grid" id="competenciasGrid"></div>
+        </div>
+
+        <div class="feedback-section" id="feedbackGeral">
+            <div class="feedback-section-title">
+                <i class="fa-solid fa-comment-dots" style="color:var(--gold)"></i>
+                Avaliação Geral
+            </div>
+            <div class="feedback-text" id="textoAvaliacaoGeral"></div>
+        </div>
+
+        <div class="feedback-section" id="feedbackDetalhado">
+            <div class="feedback-section-title">
+                <i class="fa-solid fa-list-check" style="color:#3F8D70"></i>
+                Análise por Competência
+            </div>
+            <div id="textoCompetencias"></div>
+        </div>
+
+        <div class="feedback-section" id="feedbackMelhorias">
+            <div class="feedback-section-title">
+                <i class="fa-solid fa-arrow-trend-up" style="color:#10b981"></i>
+                Como melhorar
+            </div>
+            <div class="feedback-text" id="textoMelhorias"></div>
+        </div>
+
+        <div class="resultado-actions">
+            <button class="btn-nova-redacao" onclick="escreverNovamente()">
+                <i class="fa-solid fa-pen"></i> Reescrever este tema
+            </button>
+            <button class="btn-nova-redacao-ghost" onclick="voltarTemas()">
+                <i class="fa-solid fa-list"></i> Escolher outro tema
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- LOADING OVERLAY -->
+<div id="loadingOverlay" class="loading-overlay" style="display:none">
+    <div class="spin-gold"></div>
+    <h3>Avaliando sua redação...</h3>
+    <p>A IA está analisando sua redação nas 5 competências do ENEM. Isso pode levar alguns segundos.</p>
+</div>
+
+</main>
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <div class="footer-brand"><img class="footer-logo" src="../assets/logo-omavest-horizontal.png" alt="OMAVEST" width="204" height="44" loading="lazy" decoding="async"></div>
+                <p>Plataforma inteligente de preparação para processos seletivos. Tecnologia e método a favor do seu futuro.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Instagram" data-tooltip="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-link" aria-label="YouTube" data-tooltip="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="social-link" aria-label="LinkedIn" data-tooltip="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link" aria-label="TikTok" data-tooltip="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h5 aria-level="2">Plataforma</h5>
+                <ul class="footer-links">
+                    <li><a href="inscricao.html"><i class="fa-solid fa-pen-to-square" style="opacity:.6;font-size:.8em"></i> Inscrições</a></li>
+                    <li><a href="noticias.html"><i class="fa-solid fa-newspaper" style="opacity:.6;font-size:.8em"></i> Notícias</a></li>
+                    <li><a href="provas.html"><i class="fa-solid fa-scroll" style="opacity:.6;font-size:.8em"></i> Provas</a></li>
+                    <li><a href="cronograma.html"><i class="fa-solid fa-calendar-days" style="opacity:.6;font-size:.8em"></i> Cronograma</a></li>
+                    <li><a href="simulados.html"><i class="fa-solid fa-brain" style="opacity:.6;font-size:.8em"></i> Simulado</a></li>
+                    <li><a href="area-candidato.html"><i class="fa-solid fa-circle-user" style="opacity:.6;font-size:.8em"></i> Minha Área</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h5 aria-level="2">Empresa</h5>
+                <ul class="footer-links">
+                    <li><a href="sobre.html">Sobre nós</a></li>
+                    <li><a href="privacidade.html">Política de Privacidade</a></li>
+                    <li><a href="termos.html">Termos de Uso</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h5 aria-level="2">Contato</h5>
+                <div class="contact-item">
+                    <i class="fa-regular fa-envelope contact-icon"></i> joaomenkdev@gmail.com
+                </div>
+                <div class="contact-item">
+                    <i class="fa-solid fa-phone contact-icon"></i> (15) 99857-4050
+                </div>
+                <div class="contact-item">
+                    <i class="fa-solid fa-location-dot contact-icon"></i> St Aurélio Moura, 138 — Angatuba, SP
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 OMAVEST. Todos os direitos reservados.</p>
+            <p>Feito com <i class="fa-solid fa-heart" style="color:#ffb3bb"></i> para estudantes brasileiros</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+// =====================================================
+//  DADOS: TEMAS DO ENEM 2018 – 2024
+// =====================================================
+const TEMAS = [
+    {
+        ano: 2024,
+        titulo: "Desafios para a valorização da herança africana no Brasil",
+        descricao: "Discuta os obstáculos históricos, sociais e culturais que dificultam o reconhecimento e a valorização das contribuições africanas para a formação do Brasil.",
+        cor: "#DCA60A",
+        cartilha: "7.0",
+        cartilhaLink: "http://bit.ly/redacaoamil7"
+    },
+    {
+        ano: 2023,
+        titulo: "Desafios para o enfrentamento da invisibilidade do trabalho de cuidado realizado pela mulher no Brasil",
+        descricao: "Analise as razões pelas quais o trabalho doméstico e de cuidado realizado por mulheres permanece invisível e desvalorizado na sociedade brasileira.",
+        cor: "#3F8D70",
+        cartilha: "6.0",
+        cartilhaLink: "http://bit.ly/redacaoamil6"
+    },
+    {
+        ano: 2022,
+        titulo: "Desafios para a valorização de comunidades e povos tradicionais no Brasil",
+        descricao: "Discuta os desafios enfrentados por quilombolas, indígenas, ribeirinhos, ciganos e outros povos tradicionais para terem suas culturas e territórios reconhecidos.",
+        cor: "#10b981",
+        cartilha: "5.0",
+        cartilhaLink: "http://bit.ly/redacaoamil5"
+    },
+    {
+        ano: 2021,
+        titulo: "Invisibilidade e registro civil: garantia de acesso à cidadania no Brasil",
+        descricao: "Analise como a falta de documentação civil exclui milhões de brasileiros do acesso a direitos básicos como saúde, educação e previdência.",
+        cor: "#3F8D70",
+        cartilha: "4.0",
+        cartilhaLink: "http://bit.ly/redacaoamil4"
+    },
+    {
+        ano: 2020,
+        titulo: "O estigma associado às doenças mentais na sociedade brasileira",
+        descricao: "Discuta como o preconceito e a desinformação em torno da saúde mental impedem que pessoas busquem tratamento e vivam com dignidade. (Edição impressa)",
+        cor: "#ef4444",
+        cartilha: "3.0",
+        cartilhaLink: "http://bit.ly/redacaoamil3"
+    },
+    {
+        ano: 2020,
+        titulo: "O desafio de reduzir as desigualdades entre as regiões do Brasil",
+        descricao: "Analise as disparidades socioeconômicas entre as regiões brasileiras e proponha caminhos para a redução dessas desigualdades. (Edição digital)",
+        cor: "#f59e0b",
+        cartilha: "3.0",
+        cartilhaLink: "http://bit.ly/redacaoamil3"
+    },
+    {
+        ano: 2019,
+        titulo: "Democratização do acesso ao cinema no Brasil",
+        descricao: "Discuta os obstáculos que impedem uma parcela significativa da população brasileira de ter acesso ao cinema como forma de lazer e cultura.",
+        cor: "#06b6d4",
+        cartilha: "2.0",
+        cartilhaLink: "http://bit.ly/redacaoamil2"
+    },
+    {
+        ano: 2018,
+        titulo: "Manipulação do comportamento do usuário pelo controle de dados na internet",
+        descricao: "Analise como empresas de tecnologia utilizam dados dos usuários para manipular comportamentos, influenciar decisões e comprometer a autonomia individual.",
+        cor: "#275E4C",
+        cartilha: "1.0",
+        cartilhaLink: "http://bit.ly/redacaoamil"
+    }
+];
+
+// =====================================================
+//  DADOS: CARTILHAS NOTA MIL
+// =====================================================
+const CARTILHAS = [
+    {
+        versao: "7.0", ano: "ENEM 2024",
+        titulo: "Cartilha Redação a Mil 7.0",
+        meta: "11 das 12 redações nota mil",
+        tema: "Desafios para a valorização da herança africana no Brasil",
+        linkOnline: "http://bit.ly/redacaoamil7",
+        linkCompleta: "http://bit.ly/downloadredamil7",
+        linkReduzida: "http://bit.ly/reduzidamil7"
+    },
+    {
+        versao: "6.0", ano: "ENEM 2023",
+        titulo: "Cartilha Redação a Mil 6.0",
+        meta: "47 das 60 redações nota mil",
+        tema: "Enfrentamento da invisibilidade do trabalho de cuidado da mulher",
+        linkOnline: "http://bit.ly/redacaoamil6",
+        linkCompleta: "http://bit.ly/downloadredamil6",
+        linkReduzida: "http://bit.ly/reduzidamil6"
+    },
+    {
+        versao: "5.0", ano: "ENEM 2022",
+        titulo: "Cartilha Redação a Mil 5.0",
+        meta: "27 das 32 redações nota mil",
+        tema: "Valorização de comunidades e povos tradicionais no Brasil",
+        linkOnline: "http://bit.ly/redacaoamil5",
+        linkCompleta: "http://bit.ly/downloadredamil5",
+        linkReduzida: "http://bit.ly/reduzidamil5"
+    },
+    {
+        versao: "4.0", ano: "ENEM 2021",
+        titulo: "Cartilha Redação a Mil 4.0",
+        meta: "18 das 22 redações nota mil",
+        tema: "Invisibilidade e registro civil: acesso à cidadania",
+        linkOnline: "http://bit.ly/redacaoamil4",
+        linkCompleta: "http://bit.ly/downloadredamil4",
+        linkReduzida: "http://bit.ly/reduzidamil4"
+    },
+    {
+        versao: "3.0", ano: "ENEM 2020",
+        titulo: "Cartilha Redação a Mil 3.0",
+        meta: "24 das 28 redações nota mil",
+        tema: "O estigma das doenças mentais / Desigualdades regionais",
+        linkOnline: "http://bit.ly/redacaoamil3",
+        linkCompleta: "http://bit.ly/downloadredamil3",
+        linkReduzida: "http://bit.ly/reduzidamil3"
+    },
+    {
+        versao: "2.0", ano: "ENEM 2019",
+        titulo: "Cartilha Redação a Mil 2.0",
+        meta: "44 das 53 redações nota mil",
+        tema: "Democratização do acesso ao cinema no Brasil",
+        linkOnline: "http://bit.ly/redacaoamil2",
+        linkCompleta: "http://bit.ly/downloadredamil2",
+        linkReduzida: "http://bit.ly/reduzidamil2"
+    },
+    {
+        versao: "1.0", ano: "ENEM 2018",
+        titulo: "Cartilha Redação a Mil 1.0",
+        meta: "31 das 55 redações nota mil",
+        tema: "Manipulação do usuário pelo controle de dados na internet",
+        linkOnline: "http://bit.ly/redacaoamil",
+        linkCompleta: "http://bit.ly/downloadredamil",
+        linkReduzida: "http://bit.ly/reduzidamil"
+    }
+];
+
+// =====================================================
+//  ESTADO
+// =====================================================
+let temaAtual = null;
+
+// =====================================================
+//  RENDER TEMAS
+// =====================================================
+function renderTemas() {
+    const grid = document.getElementById('temasGrid');
+    grid.innerHTML = TEMAS.map(t => `
+        <div class="tema-card" style="--card-color:${t.cor}">
+            <div class="tema-ano">ENEM ${t.ano} ${t.cartilha ? '· Cartilha ' + t.cartilha : ''}</div>
+            <div class="tema-titulo">${t.titulo}</div>
+            <div class="tema-desc">${t.descricao}</div>
+            <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
+                <button class="btn-escrever" onclick="abrirEditor(${TEMAS.indexOf(t)})">
+                    <i class="fa-solid fa-pen-to-square"></i> Escrever
+                </button>
+                ${t.cartilhaLink ? `<a href="${t.cartilhaLink}" target="_blank" style="font-size:.775rem;color:var(--gold);font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem"><i class="fa-solid fa-book-open" style="font-size:.7rem"></i> Ver nota mil</a>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+// =====================================================
+//  RENDER CARTILHAS
+// =====================================================
+function renderCartilhas() {
+    const grid = document.getElementById('cartilhasGrid');
+    grid.innerHTML = CARTILHAS.map(c => `
+        <div class="cartilha-card">
+            <div class="cartilha-version">${c.versao} · ${c.ano}</div>
+            <div class="cartilha-title">${c.titulo}</div>
+            <div class="cartilha-meta">${c.meta}</div>
+            <div class="cartilha-tema">${c.tema}</div>
+            <div class="cartilha-actions">
+                <a href="${c.linkOnline}" target="_blank" class="btn-cartilha btn-cartilha-gold">
+                    <i class="fa-solid fa-book-open"></i> Ler Online
+                </a>
+                <a href="${c.linkCompleta}" target="_blank" class="btn-cartilha btn-cartilha-ghost">
+                    <i class="fa-solid fa-download"></i> Baixar
+                </a>
+            </div>
+        </div>
+    `).join('');
+}
+
+// =====================================================
+//  TABS
+// =====================================================
+function showTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.currentTarget.classList.add('active');
+}
+
+// =====================================================
+//  EDITOR
+// =====================================================
+function abrirEditor(idx) {
+    temaAtual = TEMAS[idx];
+    document.getElementById('editorAno').textContent = 'ENEM ' + temaAtual.ano;
+    document.getElementById('editorTema').textContent = temaAtual.titulo;
+    document.getElementById('redacaoTexto').value = '';
+    atualizarContagem();
+
+    document.getElementById('painelTemas').style.display = 'none';
+    document.getElementById('painelEscrita').style.display = 'block';
+    document.getElementById('painelResultado').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function voltarTemas() {
+    document.getElementById('painelTemas').style.display = 'block';
+    document.getElementById('painelEscrita').style.display = 'none';
+    document.getElementById('painelResultado').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function escreverNovamente() {
+    document.getElementById('painelEscrita').style.display = 'block';
+    document.getElementById('painelResultado').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function atualizarContagem() {
+    const txt = document.getElementById('redacaoTexto').value;
+    const palavras = txt.trim() === '' ? 0 : txt.trim().split(/\s+/).length;
+    document.getElementById('contPalavras').textContent = palavras;
+    document.getElementById('contChars').textContent = txt.length;
+}
+
+// =====================================================
+//  CORRIGIR REDAÇÃO COM CLAUDE IA
+// =====================================================
+async function corrigirRedacao() {
+    const texto = document.getElementById('redacaoTexto').value.trim();
+
+    if (texto.length < 100) {
+        alert('⚠️ Sua redação está muito curta. Escreva pelo menos 2 parágrafos para uma avaliação adequada.');
+        return;
+    }
+
+    document.getElementById('loadingOverlay').style.display = 'flex';
+
+    const systemPrompt = `Você é um avaliador oficial de redações do ENEM (Exame Nacional do Ensino Médio), seguindo rigorosamente os critérios da Cartilha de Redação do INEP.
+
+Você avalia APENAS redações dissertativo-argumentativas no formato ENEM.
+
+Critérios de avaliação — 5 Competências (0 a 200 pontos cada, múltiplos de 40: 0, 40, 80, 120, 160, 200):
+
+**Competência I — Domínio da norma culta da Língua Portuguesa**
+Avalie: ortografia, acentuação, pontuação, morfossintaxe, concordância (verbal e nominal), regência, crase, colocação pronominal.
+
+**Competência II — Compreensão da proposta de redação e aplicação de conceitos das várias áreas do conhecimento**
+Avalie: pertinência ao tema, não-tangenciamento, desenvolvimento adequado, uso de repertório sociocultural relevante.
+
+**Competência III — Seleção, relação, organização e interpretação de informações em defesa de um ponto de vista**
+Avalie: tese clara, argumentos consistentes, progressão lógica, ausência de contradições, qualidade dos argumentos.
+
+**Competência IV — Demonstração de conhecimento dos mecanismos linguísticos necessários para a construção da argumentação**
+Avalie: uso de conectivos, coesão referencial, articulação entre parágrafos, encadeamento das ideias.
+
+**Competência V — Elaboração de proposta de intervenção para o problema abordado, respeitando os direitos humanos**
+Avalie: proposta de intervenção social detalhada (agente + ação + modo/meio + efeito/finalidade), respeito aos direitos humanos.
+
+Você DEVE responder em JSON puro (sem markdown, sem backticks), com esta estrutura exata:
+{
+  "nota_total": número de 0 a 1000,
+  "competencias": [
+    {"nome": "Domínio da norma culta", "nota": número, "feedback": "feedback específico"},
+    {"nome": "Compreensão do tema", "nota": número, "feedback": "feedback específico"},
+    {"nome": "Seleção de argumentos", "nota": número, "feedback": "feedback específico"},
+    {"nome": "Coesão textual", "nota": número, "feedback": "feedback específico"},
+    {"nome": "Proposta de intervenção", "nota": número, "feedback": "feedback específico"}
+  ],
+  "avaliacao_geral": "parágrafo geral sobre a redação, pontos fortes e fracos",
+  "como_melhorar": "lista de 3 a 5 ações concretas para melhorar a redação"
+}`;
+
+    const userPrompt = `Tema: "${temaAtual.titulo}"
+
+Redação do candidato:
+${texto}
+
+Avalie seguindo estritamente os critérios ENEM. Seja justo, preciso e didático.`;
+
+    try {
+        // A correção passa pelo servidor OMAVEST (chave da IA fica protegida; sem chave usa o modo local)
+        const response = await fetch((window.OMAVEST_API || "http://localhost:5000/api") + "/ia/redacao", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ tema: temaAtual.titulo, texto })
+        });
+
+        const resultado = await response.json();
+        if (!response.ok) throw new Error(resultado.message || "Não foi possível corrigir a redação.");
+
+        renderResultado(resultado);
+
+    } catch (err) {
+        console.error(err);
+        alert('Erro ao corrigir redação: ' + (err.message || 'Tente novamente.'));
+    } finally {
+        document.getElementById('loadingOverlay').style.display = 'none';
+    }
+}
+
+// =====================================================
+//  RENDER RESULTADO
+// =====================================================
+function renderResultado(r) {
+    const nota = r.nota_total || 0;
+
+    // Nota total
+    const notaEl = document.getElementById('notaTotal');
+    notaEl.textContent = nota;
+    notaEl.className = 'resultado-nota-total ' + (nota >= 800 ? 'nota-excellent' : nota >= 600 ? 'nota-good' : nota >= 400 ? 'nota-medium' : 'nota-low');
+
+    // Competências
+    const compGrid = document.getElementById('competenciasGrid');
+    const compNames = ['I', 'II', 'III', 'IV', 'V'];
+    compGrid.innerHTML = (r.competencias || []).map((c, i) => `
+        <div class="comp-box">
+            <div class="comp-num">${c.nota}</div>
+            <div class="comp-name">C${compNames[i]}</div>
+            <div class="comp-label">${c.nome}</div>
+        </div>
+    `).join('');
+
+    // Avaliação geral
+    document.getElementById('textoAvaliacaoGeral').textContent = r.avaliacao_geral || '';
+
+    // Análise por competência
+    const compDetalhes = document.getElementById('textoCompetencias');
+    compDetalhes.innerHTML = (r.competencias || []).map((c, i) => `
+        <div style="margin-bottom:1.25rem;padding:1rem 1.25rem;border-radius:8px;background:var(--parchment);border-left:4px solid ${getCompColor(i)}">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+                <strong style="font-size:.9rem;color:var(--ink)">Competência ${compNames[i]} — ${c.nome}</strong>
+                <span style="font-weight:800;font-size:1.05rem;color:${getCompColor(i)}">${c.nota} pts</span>
+            </div>
+            <p style="font-size:.875rem;color:#374151;line-height:1.7">${c.feedback}</p>
+        </div>
+    `).join('');
+
+    // Como melhorar
+    document.getElementById('textoMelhorias').textContent = r.como_melhorar || '';
+
+    // Mostrar resultado
+    document.getElementById('painelEscrita').style.display = 'none';
+    document.getElementById('painelResultado').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function getCompColor(i) {
+    return ['#DCA60A','#3F8D70','#10b981','#3F8D70','#ef4444'][i] || '#6b7280';
+}
+
+// =====================================================
+//  MENU MOBILE
+// =====================================================
+document.addEventListener('DOMContentLoaded', () => {
+    renderTemas();
+    renderCartilhas();
+
+    if (typeof initCursor === 'function') initCursor();
+
+    const btn  = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobileMenu');
+    const icon = document.getElementById('menuIcon');
+    if (btn) {
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('show');
+            icon.innerHTML = menu.classList.contains('show')
+                ? '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>'
+                : '<line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>';
+        });
+    }
+});
+</script>
+<script src="../js/java.js?v=omavest7"></script>
+</body>
+</html>

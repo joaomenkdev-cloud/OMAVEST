@@ -1,0 +1,27 @@
+# Dependências e builds
+node_modules/
+bin/
+obj/
+dist/
+.expo/
+
+# Banco local (recriado automaticamente)
+*.db
+*.db-shm
+*.db-wal
+
+# Credenciais - nunca versionar
+.env
+.env.*
+pc/js/firebase-config.js
+.firebaserc
+
+# Gerados por testes
+__pycache__/
+tests/_saida/
+
+# Sistema/IDE
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/

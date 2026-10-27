@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Conta — OMAVEST</title>
+    <meta name="description" content="Crie sua conta gratuita no OMAVEST e acesse simulados, provas anteriores e correção de redação.">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <meta name="theme-color" content="#0F1B17">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;1,14..32,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css?v=omavest7">
+    <style>
+        :root {
+            --auth-bg: linear-gradient(135deg, #EEF5F1 0%, #F6F9F7 50%, #f0fdf4 100%);
+            --card-shadow: 0 20px 60px rgba(20,56,44,.12), 0 4px 16px rgba(63,141,112,.08);
+            --input-focus: rgba(63,141,112,.12);
+            --google-red: #ea4335;
+        }
+
+        body { background: var(--auth-bg); min-height: 100vh; }
+
+        /* ─── WRAPPER ─── */
+        .auth-page {
+            min-height: calc(100vh - 80px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 7rem 1.25rem 4rem;
+        }
+
+        /* ─── CARD ─── */
+        .auth-card {
+            background: white; border-radius: 28px;
+            box-shadow: var(--card-shadow);
+            padding: 3rem 3rem 2.5rem;
+            width: 100%; max-width: 480px;
+            position: relative; overflow: hidden;
+        }
+        .auth-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--primary), #275E4C, #3F8D70);
+        }
+
+        /* ─── BRAND ─── */
+        .auth-brand {
+            text-align: center; margin-bottom: .25rem;
+            font-size: 2rem; font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .auth-card h2 { text-align: center; font-size: 1.3rem; color: var(--primary-dark); margin-bottom: .35rem; }
+        .auth-sub { text-align: center; color: #5F6F67; font-size: .875rem; margin-bottom: 2rem; }
+
+        /* ─── GOOGLE BTN ─── */
+        .btn-google {
+            width: 100%; display: flex; align-items: center; justify-content: center;
+            gap: .75rem; padding: .875rem 1.25rem;
+            background: white; border: 2px solid #e5e7eb; border-radius: 14px;
+            font-size: .95rem; font-weight: 600; color: #374151;
+            font-family: 'Inter', sans-serif; cursor: pointer !important;
+            transition: all .2s; margin-bottom: 1.5rem;
+        }
+        .btn-google:hover { border-color: #d1d5db; background: #fafafa; box-shadow: 0 4px 16px rgba(0,0,0,.08); transform: translateY(-1px); }
+        .btn-google img { width: 20px; height: 20px; }
+
+        /* ─── DIVIDER ─── */
+        .auth-divider {
+            display: flex; align-items: center; gap: .875rem;
+            color:#66717A; font-size: .8rem; margin-bottom: 1.5rem;
+        }
+        .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: #E6F0EB; }
+
+        /* ─── FORM ─── */
+        .auth-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: .875rem; }
+        .form-grp { margin-bottom: 1.1rem; }
+        .form-grp label { display: block; font-size: .825rem; font-weight: 600; color: #374151; margin-bottom: .4rem; }
+        .input-wrap { position: relative; }
+        .input-wrap i { position: absolute; left: .95rem; top: 50%; transform: translateY(-50%); color:#66717A; font-size: .85rem; pointer-events: none; }
+        .input-wrap input {
+            width: 100%; padding: .875rem 1rem .875rem 2.6rem;
+            border: 1.5px solid #e5e7eb; border-radius: 12px;
+            font-size: .9rem; font-family: 'Inter', sans-serif; color: #111827;
+            background: #f9fafb; transition: all .2s; box-sizing: border-box;
+        }
+        .input-wrap input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px var(--input-focus); }
+        .input-wrap input.error { border-color: #ef4444; background: #fff5f5; }
+        .input-wrap .toggle-pw {
+            position: absolute; right: .875rem; top: 50%; transform: translateY(-50%);
+            background: none; border: none; cursor: pointer !important; color:#66717A; padding: 0;
+            font-size: .85rem;
+        }
+        .input-wrap .toggle-pw:hover { color: var(--primary); }
+        .form-grp .hint { font-size: .75rem; color:#66717A; margin-top: .3rem; }
+        .form-grp .field-error { font-size: .75rem; color: #ef4444; margin-top: .3rem; display: none; }
+
+        /* ─── STRENGTH BAR ─── */
+        .strength-bar { display: flex; gap: 4px; margin-top: .4rem; }
+        .strength-bar span {
+            flex: 1; height: 3px; border-radius: 2px;
+            background: #e5e7eb; transition: background .3s;
+        }
+        .strength-bar span.weak { background: #ef4444; }
+        .strength-bar span.medium { background: #f97316; }
+        .strength-bar span.good { background: #eab308; }
+        .strength-bar span.strong { background: #22c55e; }
+        .strength-label { font-size: .72rem; color:#66717A; margin-top: .25rem; }
+
+        /* ─── TERMS ─── */
+        .terms-row {
+            display: flex; align-items: flex-start; gap: .625rem;
+            font-size: .82rem; color:#56606A; cursor: pointer; margin-bottom: 1.25rem;
+        }
+        .terms-row input[type="checkbox"] { width: 15px; height: 15px; margin-top: 1px; accent-color: var(--primary); flex-shrink: 0; }
+        .terms-row a { color: var(--primary); font-weight: 600; text-decoration: none; }
+
+        /* ─── SUBMIT ─── */
+        .btn-submit {
+            width: 100%; padding: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; border: none; border-radius: 14px;
+            font-size: 1rem; font-weight: 700; font-family: 'Inter', sans-serif;
+            cursor: pointer !important; transition: all .25s;
+            display: flex; align-items: center; justify-content: center; gap: .6rem;
+        }
+        .btn-submit:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 8px 28px rgba(63,141,112,.35); }
+        .btn-submit:disabled { opacity: .7; transform: none; cursor: not-allowed !important; }
+
+        /* ─── FOOTER LINK ─── */
+        .auth-footer-link { text-align: center; margin-top: 1.25rem; font-size: .875rem; color: #5F6F67; }
+        .auth-footer-link a { color: var(--primary); font-weight: 600; text-decoration: none; }
+
+        /* ─── ALERT ─── */
+        .auth-alert {
+            display: none; padding: .75rem 1rem; border-radius: 10px;
+            font-size: .85rem; margin-bottom: 1rem; align-items: center; gap: .5rem;
+        }
+        .auth-alert.error { background: #fef2f2; border: 1px solid #fca5a5; color: #dc2626; display: flex; }
+        .auth-alert.success { background: #f0fdf4; border: 1px solid #86efac; color: #15803d; display: flex; }
+
+        /* ─── SUCCESS SCREEN ─── */
+        #successScreen { display: none; text-align: center; }
+        .success-icon {
+            width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .success-icon i { font-size: 2rem; color: white; }
+        #successScreen h3 { font-size: 1.4rem; color: var(--primary-dark); margin-bottom: .5rem; }
+        #successScreen p { color: #5F6F67; font-size: .9rem; margin-bottom: 1.5rem; line-height: 1.6; }
+
+        /* ─── 2FA SETUP SCREEN ─── */
+        #twoFAScreen { display: none; }
+        .totp-box {
+            background: #F3F7F5; border: 1px solid #CFE6DB; border-radius: 16px;
+            padding: 1.5rem; text-align: center; margin-bottom: 1.25rem;
+        }
+        .totp-box h4 { font-size: 1rem; color: var(--primary-dark); margin-bottom: .75rem; }
+        .totp-box p { font-size: .82rem; color: #5F6F67; margin-bottom: 1rem; line-height: 1.5; }
+        #qrCodeContainer { display: flex; justify-content: center; margin: 1rem 0; }
+        #qrCodeContainer img { border-radius: 12px; border: 3px solid white; box-shadow: 0 4px 20px rgba(0,0,0,.12); }
+        .secret-code {
+            font-family: monospace; font-size: .85rem; background: white;
+            padding: .5rem 1rem; border-radius: 8px; word-break: break-all;
+            color: var(--primary-dark); border: 1px solid #CFE6DB;
+            display: inline-block; margin-bottom: .75rem;
+        }
+        .otp-inputs { display: flex; gap: .5rem; justify-content: center; margin: 1rem 0; }
+        .otp-inputs input {
+            width: 48px; height: 56px; text-align: center; font-size: 1.4rem; font-weight: 700;
+            border: 2px solid #e5e7eb; border-radius: 10px; font-family: 'Inter', sans-serif;
+            background: #f9fafb; color: var(--primary-dark); transition: .2s; box-sizing: border-box;
+        }
+        .otp-inputs input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px var(--input-focus); }
+
+        /* ─── LOADING OVERLAY ─── */
+        #loadingOverlay {
+            position: fixed; inset: 0; background: rgba(255,255,255,.8);
+            backdrop-filter: blur(4px); z-index: 9999;
+            display: none; align-items: center; justify-content: center; flex-direction: column; gap: 1rem;
+        }
+        #loadingOverlay.show { display: flex; }
+        .spinner { width: 48px; height: 48px; border: 4px solid #E6F0EB; border-top-color: var(--primary); border-radius: 50%; animation: spin .8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 520px) {
+            .auth-card { padding: 2rem 1.5rem; }
+            .auth-form .row { grid-template-columns: 1fr; }
+        }
+    
+        .hidden-local { display: none !important; }
+    </style>
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<div id="cursor"></div><div id="cursor-ring"></div>
+<div id="loadingOverlay"><div class="spinner"></div><p style="color:#5F6F67;font-weight:600">Aguarde...</p></div>
+
+<header>
+    <nav class="container">
+        <a class="logo" href="index.html" aria-label="OMAVEST — página inicial"><img src="../assets/logo-omavest-horizontal.png" alt="OMAVEST" width="186" height="40" decoding="async"></a>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fa-solid fa-pen-to-square" style="opacity:.6;font-size:.8em"></i> Início</a></li>
+            <li><a href="inscricao.html" class="active"><i class="fa-solid fa-pen-to-square" style="opacity:.6;font-size:.8em"></i> Inscrições</a></li>
+            <li><a href="noticias.html"><i class="fa-solid fa-newspaper" style="opacity:.6;font-size:.8em"></i> Notícias</a></li>
+            <li><a href="provas.html"><i class="fa-solid fa-scroll" style="opacity:.6;font-size:.8em"></i> Provas</a></li>
+            <li><a href="cronograma.html"><i class="fa-solid fa-calendar-days" style="opacity:.6;font-size:.8em"></i> Cronograma</a></li>
+            <li><a href="simulados.html"><i class="fa-solid fa-brain" style="opacity:.6;font-size:.8em"></i> Simulado</a></li>
+            <li><a href="area-candidato.html" class="btn btn-primary"><i class="fa-solid fa-circle-user"></i> Minha Área</a></li>
+        </ul>
+        <button class="menu-toggle" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" id="menuIcon">
+                <line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html"><i class="fa-solid fa-house"></i> Início</a>
+        <a href="inscricao.html"><i class="fa-solid fa-pen-to-square"></i> Inscrições</a>
+        <a href="noticias.html"><i class="fa-solid fa-newspaper"></i> Notícias</a>
+        <a href="provas.html"><i class="fa-solid fa-scroll"></i> Provas</a>
+        <a href="cronograma.html"><i class="fa-solid fa-calendar-days"></i> Cronograma</a>
+        <a href="simulados.html"><i class="fa-solid fa-brain"></i> Simulado</a>
+        <a href="area-candidato.html"><i class="fa-solid fa-circle-user"></i> Minha Área</a>
+    </div>
+</header>
+<main id="conteudo" tabindex="-1">
+<h1 class="sr-only">Criar conta no OMAVEST</h1>
+
+<div class="auth-page">
+    <div class="auth-card">
+        <!-- ── CADASTRO ── -->
+        <div id="registerScreen">
+            <div class="auth-brand"><img src="../assets/logo-omavest-cor.png" alt="OMAVEST" width="101" height="92" decoding="async"></div>
+            <h2>Crie sua conta gratuita</h2>
+            <p class="auth-sub">Acesse simulados, provas e muito mais</p>
+
+            <div class="auth-alert" role="status" aria-live="polite" id="regAlert"></div>
+
+            <div id="googleBlock"><!-- Google -->
+            <button class="btn-google" id="btnGoogle" onclick="loginGoogle()">
+                <img src="https://www.google.com/favicon.ico" alt="Google">
+                Continuar com Google
+            </button>
+
+            <div class="auth-divider">ou cadastre com e-mail</div></div>
+
+            <form class="auth-form" id="regForm" novalidate>
+                <div class="row">
+                    <div class="form-grp">
+                        <label for="nome">Nome</label>
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" id="nome" placeholder="João" autocomplete="given-name" required>
+                        </div>
+                        <div class="field-error" id="erNome">Nome obrigatório</div>
+                    </div>
+                    <div class="form-grp">
+                        <label for="sobrenome">Sobrenome</label>
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" id="sobrenome" placeholder="Silva" autocomplete="family-name" required>
+                        </div>
+                        <div class="field-error" id="erSobrenome">Sobrenome obrigatório</div>
+                    </div>
+                </div>
+
+                <div class="form-grp">
+                    <label for="email">E-mail</label>
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="email" placeholder="joao@email.com" autocomplete="email" required>
+                    </div>
+                    <div class="field-error" id="erEmail">E-mail inválido</div>
+                </div>
+
+                <div class="form-grp">
+                    <label for="senha">Senha</label>
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="senha" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required minlength="8">
+                        <button type="button" class="toggle-pw" aria-label="Mostrar ou ocultar senha" onclick="togglePw('senha','iconSenha')"><i id="iconSenha" class="fa-solid fa-eye"></i></button>
+                    </div>
+                    <div class="strength-bar"><span id="s1"></span><span id="s2"></span><span id="s3"></span><span id="s4"></span></div>
+                    <div class="strength-label" id="strengthLabel"></div>
+                    <div class="field-error" id="erSenha">Mínimo 8 caracteres</div>
+                </div>
+
+                <div class="form-grp">
+                    <label for="confirmar">Confirmar senha</label>
+                    <div class="input-wrap">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="confirmar" placeholder="Repita a senha" autocomplete="new-password" required>
+                        <button type="button" class="toggle-pw" aria-label="Mostrar ou ocultar senha" onclick="togglePw('confirmar','iconConf')"><i id="iconConf" class="fa-solid fa-eye"></i></button>
+                    </div>
+                    <div class="field-error" id="erConfirmar">As senhas não coincidem</div>
+                </div>
+
+                <div class="form-grp">
+                    <label class="terms-row">
+                        <input type="checkbox" id="termos" required>
+                        Li e aceito os <a href="#" target="_blank">termos de uso</a> e a <a href="#" target="_blank">política de privacidade</a>.
+                    </label>
+                    <div class="field-error" id="erTermos">Você precisa aceitar os termos</div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="btnCadastro">
+                    <i class="fa-solid fa-user-plus"></i> Criar conta
+                </button>
+            </form>
+
+            <p class="auth-footer-link">Já tem conta? <a href="area-candidato.html">Entrar</a></p>
+        </div>
+
+        <!-- ── 2FA SETUP ── -->
+        <div id="twoFAScreen">
+            <div class="auth-brand"><img src="../assets/logo-omavest-cor.png" alt="OMAVEST" width="101" height="92" decoding="async"></div>
+            <h2>Ativar verificação em 2 etapas</h2>
+            <p class="auth-sub">Proteja sua conta com um app autenticador</p>
+
+            <div class="totp-box">
+                <h4><i class="fa-solid fa-shield-halved" style="color:var(--primary);margin-right:.4rem"></i>Configure seu autenticador</h4>
+                <p>Escaneie o QR Code com o <strong>Google Authenticator</strong>, <strong>Authy</strong> ou outro app compatível. Em seguida, insira o código de 6 dígitos para confirmar.</p>
+                <div id="qrCodeContainer">
+                    <div style="width:160px;height:160px;background:#E6F0EB;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#66717A">
+                        <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+                    </div>
+                </div>
+                <p style="font-size:.78rem;color:#66717A;margin-bottom:.5rem">Ou insira manualmente:</p>
+                <div class="secret-code" id="totpSecret">Gerando...</div>
+            </div>
+
+            <p style="font-size:.85rem;color:#374151;font-weight:600;text-align:center;margin-bottom:.75rem">Digite o código do app:</p>
+            <div class="otp-inputs" id="otpInputs">
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+                <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]">
+            </div>
+            <div class="auth-alert" role="status" aria-live="polite" id="twoFAAlert"></div>
+
+            <button class="btn-submit" id="btn2FA" onclick="verificar2FA()">
+                <i class="fa-solid fa-shield-check"></i> Verificar e ativar 2FA
+            </button>
+            <button onclick="pular2FA()" style="width:100%;margin-top:.75rem;padding:.75rem;background:none;border:1.5px solid #e5e7eb;border-radius:12px;font-family:Inter,sans-serif;font-size:.875rem;color:#5F6F67;cursor:pointer;transition:.2s" onmouseover="this.style.borderColor='#d1d5db'" onmouseout="this.style.borderColor='#e5e7eb'">
+                Configurar depois
+            </button>
+        </div>
+
+        <!-- ── SUCESSO ── -->
+        <div id="successScreen">
+            <div class="success-icon"><i class="fa-solid fa-check"></i></div>
+            <h3>Conta criada com sucesso!</h3>
+            <p>Bem-vindo ao <strong>OMAVEST</strong>! Sua conta foi criada e você já está conectado. Acesse a sua área para ver o cronograma, as notícias e fazer simulados.</p>
+            <button class="btn-submit" onclick="window.location.href='area-candidato.html'">
+                <i class="fa-solid fa-circle-user"></i> Ir para Minha Área
+            </button>
+        </div>
+    </div>
+</div>
+
+</main>
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <div class="footer-brand"><img class="footer-logo" src="../assets/logo-omavest-horizontal.png" alt="OMAVEST" width="204" height="44" loading="lazy" decoding="async"></div>
+                <p>Plataforma inteligente de preparação para processos seletivos.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-link" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h5 aria-level="2">Plataforma</h5>
+                <ul class="footer-links">
+                    <li><a href="inscricao.html"><i class="fa-solid fa-pen-to-square" style="opacity:.6;font-size:.8em"></i> Inscrições</a></li>
+                    <li><a href="noticias.html"><i class="fa-solid fa-newspaper" style="opacity:.6;font-size:.8em"></i> Notícias</a></li>
+                    <li><a href="provas.html"><i class="fa-solid fa-scroll" style="opacity:.6;font-size:.8em"></i> Provas</a></li>
+                    <li><a href="cronograma.html"><i class="fa-solid fa-calendar-days" style="opacity:.6;font-size:.8em"></i> Cronograma</a></li>
+                    <li><a href="simulados.html"><i class="fa-solid fa-brain" style="opacity:.6;font-size:.8em"></i> Simulado</a></li>
+                    <li><a href="area-candidato.html"><i class="fa-solid fa-circle-user" style="opacity:.6;font-size:.8em"></i> Minha Área</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h5 aria-level="2">Contato</h5>
+                <div class="contact-item"><i class="fa-regular fa-envelope contact-icon"></i> joaomenkdev@gmail.com</div>
+                <div class="contact-item"><i class="fa-solid fa-phone contact-icon"></i> (15) 99857-4050</div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 OMAVEST. Todos os direitos reservados.</p>
+            <p>Feito com <i class="fa-solid fa-heart" style="color:#ffb3bb"></i> para estudantes brasileiros</p>
+        </div>
+    </div>
+</footer>
+
+<script src="../js/java.js?v=omavest7"></script>
+<script type="module" src="../js/criar-conta.js?v=omavest7"></script>
+
+</body>
+</html>

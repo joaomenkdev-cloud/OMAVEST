@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulados - OMAVEST</title>
+    <meta name="description" content="Banco de simulados com questões reais de ENEM, FUVEST e UNICAMP e explicação por IA.">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <meta name="theme-color" content="#0F1B17">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css?v=omavest7">
+    <style>
+        /* ── SPACING VARS ── */
+        :root {
+            --spacing-sm: .75rem;
+            --spacing-md: 1.25rem;
+            --spacing-lg: 1.75rem;
+            --spacing-xl: 2.5rem;
+            --spacing-2xl: 4rem;
+            --radius: .625rem;
+        }
+
+        /* ── SELEÇÃO DE MATÉRIAS ── */
+        .materias-section {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+        .materias-section-header {
+            margin-bottom: 2rem;
+        }
+        .materias-section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            letter-spacing: -.02em;
+        }
+        .materias-section-header p {
+            font-size: .9rem;
+            color:#56606A;
+            margin-top: .25rem;
+        }
+        .materias-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+        }
+        .materia-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: border-color .2s, box-shadow .2s, transform .2s;
+            position: relative;
+        }
+        .materia-card:hover {
+            border-color: var(--card-color, var(--primary));
+            box-shadow: 0 4px 20px rgba(0,0,0,.08);
+            transform: translateY(-2px);
+        }
+        .materia-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .materia-icon {
+            width: 40px; height: 40px;
+            border-radius: 8px;
+            background: color-mix(in srgb, var(--card-color, var(--primary)) 12%, transparent);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--card-color, var(--primary));
+            font-size: 1.1rem;
+        }
+        .materia-badge {
+            font-size: .7rem;
+            font-weight: 600;
+            padding: .2rem .6rem;
+            border-radius: 4px;
+            letter-spacing: .03em;
+            text-transform: uppercase;
+        }
+        .badge-dificil { background: #fee2e2; color: #b91c1c; }
+        .badge-medio   { background: #fef3c7; color: #b45309; }
+        .badge-facil   { background: #d1fae5; color: #065f46; }
+        .materia-nome {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: .35rem;
+        }
+        .materia-meta {
+            font-size: .8rem;
+            color:#66717A;
+            margin-bottom: 1.25rem;
+        }
+        .btn-iniciar {
+            width: 100%;
+            padding: .65rem 1rem;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: .875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .18s;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: .01em;
+        }
+        .btn-iniciar:hover { background: var(--primary); }
+        .materia-card.indisponivel { cursor: not-allowed; opacity: .55; }
+        .materia-card.indisponivel:hover { border-color: #e5e7eb; box-shadow: none; transform: none; }
+        .materia-card.indisponivel .btn-iniciar { background: #9aa3a0; cursor: not-allowed; }
+
+        /* ── FILTRO DE DIFICULDADE ── */
+        .dificuldade-section {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 1.5rem 2rem;
+        }
+        .dificuldade-header {
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            margin-bottom: 1rem;
+        }
+        .dificuldade-header h3 {
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+        .dificuldade-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .625rem;
+        }
+        .diff-btn {
+            display: flex;
+            align-items: center;
+            gap: .45rem;
+            padding: .55rem 1.15rem;
+            border-radius: 100px;
+            border: 2px solid #e5e7eb;
+            background: #fff;
+            font-size: .875rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .18s;
+            font-family: inherit;
+            color:#56606A;
+        }
+        .diff-btn .diff-dot {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .diff-btn:hover        { border-color: var(--primary); color: var(--primary-dark); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+        .diff-btn.ativo        { color: white; border-color: transparent; box-shadow: 0 3px 10px rgba(0,0,0,.18); }
+        /* misto */
+        .diff-btn[data-d="misto"]  .diff-dot { background: linear-gradient(135deg,#16a34a,#f59e0b,#dc2626); }
+        .diff-btn[data-d="misto"].ativo      { background: var(--primary-dark); }
+        /* fácil */
+        .diff-btn[data-d="Fácil"]  .diff-dot { background: #16a34a; }
+        .diff-btn[data-d="Fácil"].ativo      { background: #16a34a; }
+        /* médio */
+        .diff-btn[data-d="Médio"]  .diff-dot { background: #f59e0b; }
+        .diff-btn[data-d="Médio"].ativo      { background: #d97706; }
+        /* difícil */
+        .diff-btn[data-d="Difícil"] .diff-dot { background: #dc2626; }
+        .diff-btn[data-d="Difícil"].ativo     { background: #dc2626; }
+        /* badge no card */
+        .diff-badge-card {
+            position: absolute; top: .75rem; right: .75rem;
+            font-size: .65rem; font-weight: 800;
+            padding: .2rem .55rem; border-radius: 4px;
+            text-transform: uppercase; letter-spacing: .04em;
+            pointer-events: none;
+        }
+        .diff-badge-card.misto   { background: #EEF6F2; color: var(--primary-dark); }
+        .diff-badge-card.facil   { background: #d1fae5; color: #065f46; }
+        .diff-badge-card.medio   { background: #fef3c7; color: #b45309; }
+        .diff-badge-card.dificil { background: #fee2e2; color: #b91c1c; }
+
+        /* ── SIMULADO ── */
+        .simulado-container { max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+        .dash-card { background: #fff; border: 1px solid #e5e7eb; border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+        .btn-full { width: 100%; justify-content: center; }
+
+        /* Progress bar */
+        .progress-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .75rem; }
+        .progress-label { font-size: .85rem; font-weight: 600; color: var(--primary-dark); }
+        .progress-meta  { font-size: .8rem; color:#66717A; }
+        .progress-bar-wrap { background: #f3f4f6; border-radius: 2px; height: 3px; margin-bottom: 1.25rem; }
+        .progress-bar-fill { background: var(--primary); height: 3px; border-radius: 2px; transition: width .4s ease; }
+        .simulado-meta { display: flex; gap: 1.5rem; font-size: .85rem; color:#56606A; }
+        .simulado-meta strong { color: var(--primary-dark); }
+
+        /* Questão */
+        .questao-card { background: #fff; border: 1px solid #e5e7eb; border-radius: var(--radius); padding: 1.5rem; margin-bottom: .875rem; }
+        .questao-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: .75rem; }
+        .questao-numero { font-size: .75rem; font-weight: 600; color:#66717A; text-transform: uppercase; letter-spacing: .06em; }
+        .questao-dificuldade { font-size: .7rem; font-weight: 600; padding: .2rem .55rem; border-radius: 4px; text-transform: uppercase; letter-spacing: .04em; }
+        .questao-dificuldade.Fácil,  .questao-dificuldade.facil   { background: #d1fae5; color: #065f46; }
+        .questao-dificuldade.Médio,  .questao-dificuldade.medio   { background: #fef3c7; color: #b45309; }
+        .questao-dificuldade.Difícil,.questao-dificuldade.dificil  { background: #fee2e2; color: #b91c1c; }
+        .questao-fonte { font-size: .75rem; color: #66717A; margin-bottom: 1rem; }
+        .questao-enunciado { font-size: .9625rem; color: #111827; line-height: 1.8; margin-bottom: 1.25rem; white-space: pre-line; }
+
+        /* Alternativas */
+        .alternativas { display: flex; flex-direction: column; gap: .5rem; }
+        .alternativa {
+            display: flex; align-items: flex-start; gap: .875rem;
+            padding: .75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: border-color .15s, background .15s;
+        }
+        .alternativa:hover { border-color: var(--primary); background: #F5F8F6; }
+        .alternativa.selected { border-color: var(--primary); background: #EEF6F2; }
+        .alternativa.correta  { border-color: #16a34a; background: #f0fdf4; pointer-events: none; }
+        .alternativa.errada   { border-color: #dc2626; background: #fef2f2; pointer-events: none; }
+        .alternativa.neutra   { pointer-events: none; background: #FAFBFA; }
+        .alternativa.neutra .alternativa-texto { color: #56606A; }
+        .alternativa-letra {
+            width: 28px; height: 28px; flex-shrink: 0;
+            border-radius: 4px;
+            background: #f3f4f6;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .8rem; font-weight: 700;
+            color: #374151;
+        }
+        .alternativa.selected .alternativa-letra { background: var(--primary); color: white; }
+        .alternativa.correta  .alternativa-letra { background: #16a34a; color: white; }
+        .alternativa.errada   .alternativa-letra { background: #dc2626; color: white; }
+        .alternativa-texto { flex: 1; font-size: .9rem; line-height: 1.55; color: #374151; }
+
+        /* Finalizar button */
+        .btn-finalizar {
+            width: 100%; padding: .875rem;
+            background: var(--primary-dark);
+            color: white; border: none;
+            border-radius: 6px; font-size: .9rem;
+            font-weight: 600; cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            display: flex; align-items: center; justify-content: center; gap: .5rem;
+            transition: background .18s;
+        }
+        .btn-finalizar:hover { background: #0F1B17; }
+
+        /* ── RESULTADO ── */
+        .resultado-container { max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+        .resultado-hero {
+            background: var(--primary-dark);
+            color: white;
+            border-radius: var(--radius);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .resultado-hero-label { font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; opacity: .6; margin-bottom: .5rem; }
+        .resultado-nota { font-size: 5rem; font-weight: 800; line-height: 1; letter-spacing: -.04em; }
+        .resultado-nota-sub { font-size: .85rem; opacity: .55; margin-top: .35rem; }
+        .resultado-stats {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1px; background: rgba(255,255,255,.12);
+            border-radius: 8px; overflow: hidden;
+            margin-top: 2rem;
+        }
+        .stat-box { background: rgba(255,255,255,.07); padding: 1.25rem .75rem; text-align: center; }
+        .stat-box-val { font-size: 2rem; font-weight: 800; }
+        .stat-box-lbl { font-size: .75rem; opacity: .6; margin-top: .2rem; text-transform: uppercase; letter-spacing: .05em; }
+
+        /* Gabarito detalhado */
+        .detalhe-header-acerto { background: #f0fdf4; border-left: 3px solid #16a34a; }
+        .detalhe-header-erro   { background: #fef2f2; border-left: 3px solid #dc2626; }
+        .detalhe-header-badge  { padding: .875rem 1rem; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+        .detalhe-badge-label   { font-weight: 700; font-size: .9rem; color: #111827; }
+        .alternativa.errada-usuario { border-color: #fca5a5; background: #fff5f5; }
+        .alternativa.errada-usuario .alternativa-letra { background: #dc2626; color: white; }
+        .alt-tag { font-size: .65rem; font-weight: 700; padding: .15rem .5rem; border-radius: 3px; margin-left: .5rem; vertical-align: middle; text-transform: uppercase; letter-spacing: .04em; }
+        .tag-correta { background: #15803D; color: white; }
+        .tag-sua     { background: #dc2626; color: white; }
+        .resumo-resposta { display: flex; gap: .75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .resumo-box { flex: 1; min-width: 140px; padding: .75rem 1rem; border-radius: 6px; font-size: .875rem; font-weight: 600; }
+        .resumo-box-certa  { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
+        .resumo-box-errada { background: #fef2f2; border: 1px solid #fecaca; color: #B91C1C; }
+        .resumo-box-label  { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; opacity: 1; margin-bottom: .25rem; }
+
+        /* Loading */
+        .loading-overlay { position: fixed; inset: 0; background: rgba(15,27,23,.8); backdrop-filter: blur(6px); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; gap: .875rem; }
+        .loading-overlay p { color: rgba(255,255,255,.7); font-size: .9rem; font-weight: 500; letter-spacing: .02em; }
+        .spin { width: 36px; height: 36px; border: 2px solid rgba(255,255,255,.15); border-top-color: rgba(255,255,255,.85); border-radius: 50%; animation: spin .7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Botões de ação no resultado */
+        .resultado-actions { display: flex; gap: .75rem; flex-wrap: wrap; padding: 1.25rem 1.5rem; }
+        .btn-action {
+            flex: 1; padding: .75rem 1.25rem;
+            border-radius: 6px; font-size: .875rem; font-weight: 600;
+            cursor: pointer; font-family: 'Inter', sans-serif;
+            border: 1px solid transparent; transition: all .18s;
+            display: flex; align-items: center; justify-content: center; gap: .4rem;
+            text-decoration: none;
+        }
+        .btn-action-primary { background: var(--primary-dark); color: white; }
+        .btn-action-primary:hover { background: #0F1B17; }
+        .btn-action-ghost { background: #f9fafb; color: #374151; border-color: #e5e7eb; }
+        .btn-action-ghost:hover { background: #f3f4f6; }
+
+        @media (max-width: 600px) {
+            .resultado-stats { grid-template-columns: 1fr 1fr; }
+            .resultado-nota  { font-size: 3.5rem; }
+            .materias-grid   { grid-template-columns: 1fr; }
+            .resultado-actions { flex-direction: column; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<header>
+    <nav class="container">
+        <a class="logo" href="index.html" aria-label="OMAVEST — página inicial"><img src="../assets/logo-omavest-horizontal.png" alt="OMAVEST" width="186" height="40" decoding="async"></a>
+        <ul class="nav-links">
+            <li><a href="index.html"><i class="fa-solid fa-pen-to-square" style="opacity:.6;font-size:.8em"></i> Início</a></li>
+            <li><a href="inscricao.html"><i class="fa-solid fa-pen-to-square" style="opacity:.6;font-size:.8em"></i> Inscrições</a></li>
+            <li><a href="noticias.html"><i class="fa-solid fa-newspaper" style="opacity:.6;font-size:.8em"></i> Notícias</a></li>
+            <li><a href="provas.html"><i class="fa-solid fa-scroll" style="opacity:.6;font-size:.8em"></i> Provas</a></li>
+            <li><a href="cronograma.html"><i class="fa-solid fa-calendar-days" style="opacity:.6;font-size:.8em"></i> Cronograma</a></li>
+            <li><a href="simulados.html"><i class="fa-solid fa-brain" style="opacity:.6;font-size:.8em"></i> Simulado</a></li>
+            <li><a href="redacao.html"><i class="fa-solid fa-feather-pointed" style="opacity:.6;font-size:.8em"></i> Redação</a></li>
+            <li><a href="area-candidato.html" class="btn btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                Minha Área
+            </a></li>
+        </ul>
+        <button class="menu-toggle" id="menuBtn" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" id="menuIcon">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Início</a>
+        <a href="simulados.html">Simulados</a>
+        <a href="provas.html"><i class="fa-solid fa-scroll" style="opacity:.6;font-size:.8em"></i> Provas</a>
+        <a href="area-candidato.html">Minha Área</a>
+    </div>
+</header>
+<main id="conteudo" tabindex="-1">
+
+<section class="page-hero">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="index.html">Início</a>
+            <i class="fa-solid fa-chevron-right" style="font-size:.65rem;opacity:.5"></i>
+            <span>Simulados</span>
+        </div>
+        <h1>Banco de Simulados</h1>
+        <p>Questões reais de ENEM, FUVEST e UNICAMP — sorteadas aleatoriamente a cada sessão</p>
+    </div>
+</section>
+
+<!-- SELEÇÃO DE MATÉRIA -->
+<div id="selecaoMateria">
+    <div class="materias-section">
+        <div class="materias-section-header">
+            <h2>Selecione uma disciplina</h2>
+            <p>Cada simulado sorteia questões do banco oficial de forma aleatória</p>
+        </div>
+    </div>
+
+    <!-- SELETOR DE DIFICULDADE -->
+    <div class="dificuldade-section">
+        <div class="dificuldade-header">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color:var(--primary)"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <h3>Nível de dificuldade</h3>
+        </div>
+        <div class="dificuldade-btns" id="diffBtns">
+            <button class="diff-btn ativo" data-d="misto"   onclick="selecionarDificuldade('misto')">
+                <span class="diff-dot"></span> 🎲 Misto
+            </button>
+            <button class="diff-btn" data-d="Fácil"   onclick="selecionarDificuldade('Fácil')">
+                <span class="diff-dot"></span> ✅ Fácil
+            </button>
+            <button class="diff-btn" data-d="Médio"   onclick="selecionarDificuldade('Médio')">
+                <span class="diff-dot"></span> ⚡ Médio
+            </button>
+            <button class="diff-btn" data-d="Difícil" onclick="selecionarDificuldade('Difícil')">
+                <span class="diff-dot"></span> 🔥 Difícil
+            </button>
+        </div>
+    </div>
+
+    <div class="materias-section">
+        <div class="materias-grid" id="materiasGrid">
+            <div class="materia-card" style="--card-color:#3F8D70" data-materia="Matemática" onclick="iniciarSimulado('Matemática')">
+                <span class="diff-badge-card misto">🎲 Misto</span>
+                <div class="materia-card-top">
+                    <div class="materia-icon"><i class="fa-solid fa-square-root-variable"></i></div>
+                </div>
+                <div class="materia-nome">Matemática</div>
+                <div class="materia-meta">Carregando…</div>
+                <button class="btn-iniciar">Iniciar simulado</button>
+            </div>
+            <div class="materia-card" style="--card-color:#3F8D70" data-materia="Português" onclick="iniciarSimulado('Português')">
+                <span class="diff-badge-card misto">🎲 Misto</span>
+                <div class="materia-card-top">
+                    <div class="materia-icon"><i class="fa-solid fa-language"></i></div>
+                </div>
+                <div class="materia-nome">Português</div>
+                <div class="materia-meta">Carregando…</div>
+                <button class="btn-iniciar">Iniciar simulado</button>
+            </div>
+            <div class="materia-card" style="--card-color:#06b6d4" data-materia="Física" onclick="iniciarSimulado('Física')">
+                <span class="diff-badge-card misto">🎲 Misto</span>
+                <div class="materia-card-top">
+                    <div class="materia-icon"><i class="fa-solid fa-atom"></i></div>
+                </div>
+                <div class="materia-nome">Física</div>
+                <div class="materia-meta">Carregando…</div>
+                <button class="btn-iniciar">Iniciar simulado</button>
+            </div>
+            <div class="materia-card" style="--card-color:#10b981" data-materia="Química" onclick="iniciarSimulado('Química')">
+                <span class="diff-badge-card misto">🎲 Misto</span>
+                <div class="materia-card-top">
+                    <div class="materia-icon"><i class="fa-solid fa-flask"></i></div>
+                </div>
+                <div class="materia-nome">Química</div>
+                <div class="materia-meta">Carregando…</div>
+                <button class="btn-iniciar">Iniciar simulado</button>
+            </div>
+            <div class="materia-card" style="--card-color:#22c55e" data-materia="Biologia" onclick="iniciarSimulado('Biologia')">
+                <span class="diff-badge-card misto">🎲 Misto</span>
+                <div class="materia-card-top">
+                    <div class="materia-icon"><i class="fa-solid fa-dna"></i></div>
+                </div>
+                <div class="materia-nome">Biologia</div>
+                <div class="materia-meta">Carregando…</div>
+                <button class="btn-iniciar">Iniciar simulado</button>
+            </div>
+            <div class="materia-card" style="--card-color:#f59e0b" data-materia="História" onclick="iniciarSimulado('História')">
+                <span class="diff-badge-card misto">🎲 Misto</span>
+                <div class="materia-card-top">
+                    <div class="materia-icon"><i class="fa-solid fa-landmark"></i></div>
+                </div>
+                <div class="materia-nome">História</div>
+                <div class="materia-meta">Carregando…</div>
+                <button class="btn-iniciar">Iniciar simulado</button>
+            </div>
+            <div class="materia-card" style="--card-color:#ef4444" data-materia="Geografia" onclick="iniciarSimulado('Geografia')">
+                <span class="diff-badge-card misto">🎲 Misto</span>
+                <div class="materia-card-top">
+                    <div class="materia-icon"><i class="fa-solid fa-earth-americas"></i></div>
+                </div>
+                <div class="materia-nome">Geografia</div>
+                <div class="materia-meta">Carregando…</div>
+                <button class="btn-iniciar">Iniciar simulado</button>
+            </div>
+            <div class="materia-card" style="--card-color:#275E4C" data-materia="Inglês" onclick="iniciarSimulado('Inglês')">
+                <span class="diff-badge-card misto">🎲 Misto</span>
+                <div class="materia-card-top">
+                    <div class="materia-icon"><i class="fa-solid fa-globe"></i></div>
+                </div>
+                <div class="materia-nome">Inglês</div>
+                <div class="materia-meta">Carregando…</div>
+                <button class="btn-iniciar">Iniciar simulado</button>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- SIMULADO EM ANDAMENTO -->
+<div class="simulado-container" id="simuladoAndamento" style="display:none">
+    <div class="dash-card">
+        <div class="progress-header">
+            <div>
+                <div class="progress-label" id="tituloSimulado">Simulado</div>
+            </div>
+            <div class="simulado-meta">
+                <span>Respondidas: <strong id="progressoQuestoes">0/0</strong></span>
+                <span>Tempo restante: <strong id="cronometro">00:00</strong></span>
+            </div>
+        </div>
+        <div class="progress-bar-wrap">
+            <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
+        </div>
+    </div>
+    <div id="questoesContainer"></div>
+    <div class="dash-card">
+        <button class="btn-finalizar" onclick="finalizarSimulado()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Finalizar e Ver Resultado
+        </button>
+    </div>
+</div>
+
+<!-- RESULTADO -->
+<div class="resultado-container" id="resultadoSimulado" style="display:none">
+    <div class="resultado-hero">
+        <div class="resultado-hero-label">Simulado concluído</div>
+        <div class="resultado-nota" id="notaFinal">0,0</div>
+        <div class="resultado-nota-sub">Nota final — escala de 0 a 10</div>
+        <div class="resultado-stats">
+            <div class="stat-box">
+                <div class="stat-box-val" id="totalAcertos">0</div>
+                <div class="stat-box-lbl">Acertos</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-box-val" id="totalErros">0</div>
+                <div class="stat-box-lbl">Erros</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-box-val" id="tempoGasto">0</div>
+                <div class="stat-box-lbl">Minutos</div>
+            </div>
+        </div>
+    </div>
+    <div id="detalhesContainer"></div>
+    <div class="dash-card resultado-actions">
+        <button class="btn-action btn-action-primary" onclick="novoSimulado()">Novo simulado</button>
+        <a href="index.html" class="btn-action btn-action-ghost">Voltar ao início</a>
+    </div>
+</div>
+
+<div id="loadingOverlay" class="loading-overlay" style="display:none">
+    <div class="spin"></div>
+    <p>Sorteando questões...</p>
+</div>
+
+</main>
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-section">
+                <div class="footer-brand"><img class="footer-logo" src="../assets/logo-omavest-horizontal.png" alt="OMAVEST" width="204" height="44" loading="lazy" decoding="async"></div>
+                <p>Plataforma inteligente de preparação para processos seletivos. Tecnologia e método a favor do seu futuro.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Instagram" data-tooltip="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="social-link" aria-label="YouTube" data-tooltip="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="social-link" aria-label="LinkedIn" data-tooltip="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link" aria-label="TikTok" data-tooltip="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h5 aria-level="2">Plataforma</h5>
+                <ul class="footer-links">
+                    <li><a href="inscricao.html"><i class="fa-solid fa-pen-to-square" style="opacity:.6;font-size:.8em"></i> Inscrições</a></li>
+                    <li><a href="noticias.html"><i class="fa-solid fa-newspaper" style="opacity:.6;font-size:.8em"></i> Notícias</a></li>
+                    <li><a href="provas.html"><i class="fa-solid fa-scroll" style="opacity:.6;font-size:.8em"></i> Provas</a></li>
+                    <li><a href="cronograma.html"><i class="fa-solid fa-calendar-days" style="opacity:.6;font-size:.8em"></i> Cronograma</a></li>
+                    <li><a href="simulados.html"><i class="fa-solid fa-brain" style="opacity:.6;font-size:.8em"></i> Simulado</a></li>
+                    <li><a href="area-candidato.html"><i class="fa-solid fa-circle-user" style="opacity:.6;font-size:.8em"></i> Minha Área</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h5 aria-level="2">Empresa</h5>
+                <ul class="footer-links">
+                    <li><a href="sobre.html">Sobre nós</a></li>
+                    <li><a href="privacidade.html">Política de Privacidade</a></li>
+                    <li><a href="termos.html">Termos de Uso</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h5 aria-level="2">Contato</h5>
+                <div class="contact-item">
+                    <i class="fa-regular fa-envelope contact-icon"></i> joaomenkdev@gmail.com
+                </div>
+                <div class="contact-item">
+                    <i class="fa-solid fa-phone contact-icon"></i> (15) 99857-4050
+                </div>
+                <div class="contact-item">
+                    <i class="fa-solid fa-location-dot contact-icon"></i> St Aurélio Moura, 138 — Angatuba, SP
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 OMAVEST. Todos os direitos reservados.</p>
+            <p>Feito com <i class="fa-solid fa-heart" style="color:#ffb3bb"></i> para estudantes brasileiros</p>
+        </div>
+    </div>
+</footer>
+
+<script src="../js/simulados-config.js?v=omavest8"></script>
+<script>
+// ============================================================
+//  Banco de questões e limites vêm de /data/banco-simulado.json e
+//  /data/simulado-config.json (js/simulados-config.js) — os mesmos do app.
+// ============================================================
+let DADOS = null;   // { config, banco }
+
+let materiaAtual     = '';
+let questoes        = [];
+let respostas       = {};
+let respondidas     = new Set();
+let inicioSimulado  = null;
+let cronometroTimer = null;
+let tempoLimite     = 90;
+
+// ── Embaralhar array ──────────────────────────────────────
+function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+// ── Dificuldade selecionada ────────────────────────────────
+let dificuldadeSelecionada = 'misto'; // 'misto' | 'Fácil' | 'Médio' | 'Difícil'
+
+function selecionarDificuldade(d) {
+    dificuldadeSelecionada = d;
+
+    // Atualiza botões
+    document.querySelectorAll('#diffBtns .diff-btn').forEach(btn => {
+        btn.classList.toggle('ativo', btn.dataset.d === d);
+    });
+
+    // Atualiza badge nos cards
+    const labels = { misto: '🎲 Misto', 'Fácil': '✅ Fácil', 'Médio': '⚡ Médio', 'Difícil': '🔥 Difícil' };
+    const cls    = { misto: 'misto', 'Fácil': 'facil', 'Médio': 'medio', 'Difícil': 'dificil' };
+    document.querySelectorAll('.materia-card .diff-badge-card').forEach(badge => {
+        badge.className = `diff-badge-card ${cls[d]}`;
+        badge.textContent = labels[d];
+    });
+    atualizarCards();
+}
+
+// ── Quantidade de questões em cada card (conforme o nível) ─
+function atualizarCards(erro) {
+    document.querySelectorAll('.materia-card[data-materia]').forEach(card => {
+        const meta = card.querySelector('.materia-meta');
+        const btn  = card.querySelector('.btn-iniciar');
+        if (!DADOS) {
+            meta.textContent = erro ? 'Banco de questões indisponível' : 'Carregando…';
+            return;
+        }
+        const m = card.dataset.materia;
+        const n = OMAVEST_SIMULADOS.quantidade(DADOS, m, dificuldadeSelecionada);
+        meta.textContent = n ? `${OMAVEST_SIMULADOS.rotulo(n)} · ${DADOS.config[m].tempo} min` : 'Sem questões neste nível';
+        card.classList.toggle('indisponivel', !n);
+        card.setAttribute('aria-disabled', String(!n));
+        btn.textContent = n ? 'Iniciar simulado' : 'Indisponível';
+    });
+}
+
+function carregarDados() {
+    return OMAVEST_SIMULADOS.carregar()
+        .then(d => { DADOS = d; atualizarCards(); return d; })
+        .catch(e => { atualizarCards(true); throw e; });
+}
+carregarDados().catch(() => {});
+
+// ── Iniciar simulado ──────────────────────────────────────
+async function iniciarSimulado(materia) {
+    if (!DADOS) {
+        try { await carregarDados(); }
+        catch { alert('Não foi possível carregar o banco de questões. Verifique se o servidor OMAVEST está em execução.'); return; }
+    }
+    const total = OMAVEST_SIMULADOS.quantidade(DADOS, materia, dificuldadeSelecionada);
+    if (!total) return;   // o card já mostra "Sem questões neste nível"
+    const banco = OMAVEST_SIMULADOS.disponiveis(DADOS, materia, dificuldadeSelecionada);
+    materiaAtual = materia;
+    tempoLimite  = DADOS.config[materia].tempo;
+
+    document.getElementById('loadingOverlay').style.display = 'flex';
+
+    setTimeout(() => {
+        // Sorteia sem repetir: o simulado tem no máximo as questões existentes no banco
+        questoes   = shuffle(banco).slice(0, total);
+        respostas  = {};
+        respondidas = new Set();
+        inicioSimulado = new Date();
+
+        renderQuestoes(materia);
+        document.getElementById('selecaoMateria').style.display   = 'none';
+        document.getElementById('simuladoAndamento').style.display = 'block';
+        document.getElementById('tituloSimulado').textContent = dificuldadeSelecionada === 'misto'
+            ? 'Simulado de ' + materia
+            : 'Simulado de ' + materia + ' — ' + dificuldadeSelecionada;
+        document.getElementById('loadingOverlay').style.display = 'none';
+        iniciarCronometro();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 400);
+}
+
+// ── Renderizar questões ───────────────────────────────────
+function renderQuestoes(materia) {
+    const container = document.getElementById('questoesContainer');
+    container.innerHTML = questoes.map((q, idx) => {
+        const alts = [
+            { l:'A', t: q.altA },
+            { l:'B', t: q.altB },
+            { l:'C', t: q.altC },
+            { l:'D', t: q.altD },
+            { l:'E', t: q.altE },
+        ].filter(a => a.t);
+
+        const caderno = q.caderno ? ` — ${q.caderno}` : '';
+        const numQ    = q.numeroQuestao ? ` Q.${q.numeroQuestao}` : '';
+
+        return `
+        <div class="questao-card" id="qcard-${idx}">
+            <div class="questao-header">
+                <span class="questao-numero">Questão ${idx+1} de ${questoes.length}</span>
+                <span class="questao-dificuldade ${q.dificuldade}">${q.dificuldade || 'Médio'}</span>
+            </div>
+            <div class="questao-fonte">📄 ${q.fonte} ${q.ano}${caderno}${numQ}</div>
+            <div class="questao-enunciado">${escapeHtml(q.enunciado)}</div>
+            <div class="alternativas" id="alts-${idx}" role="radiogroup" aria-label="Alternativas da questão ${idx+1}">
+                ${alts.map(a => `
+                <div class="alternativa" id="alt-${idx}-${a.l}" role="radio" aria-checked="false" tabindex="0" onclick="selecionarAlternativa(${idx},'${a.l}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}">
+                    <div class="alternativa-letra">${a.l}</div>
+                    <div class="alternativa-texto">${escapeHtml(a.t)}</div>
+                </div>`).join('')}
+            </div>
+        </div>`;
+    }).join('');
+    atualizarProgresso();
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/\n/g,'<br>');
+}
+
+// ── Selecionar alternativa ────────────────────────────────
+function selecionarAlternativa(idx, letra) {
+    if (respondidas.has(idx)) return;
+    respostas[idx] = letra;
+    const container = document.getElementById('alts-' + idx);
+    container.querySelectorAll('.alternativa').forEach(el => { el.classList.remove('selected'); el.setAttribute('aria-checked', 'false'); });
+    const escolhida = document.getElementById('alt-' + idx + '-' + letra);
+    escolhida.classList.add('selected'); escolhida.setAttribute('aria-checked', 'true');
+    atualizarProgresso();
+}
+
+// ── Progresso ─────────────────────────────────────────────
+function atualizarProgresso() {
+    const resp  = Object.keys(respostas).length;
+    const total = questoes.length;
+    document.getElementById('progressoQuestoes').textContent = resp + '/' + total;
+    document.getElementById('progressBar').style.width = ((resp / total) * 100) + '%';
+}
+
+// ── Cronômetro ────────────────────────────────────────────
+function iniciarCronometro() {
+    clearInterval(cronometroTimer);
+    const tick = () => {
+        const diff  = Math.floor((new Date() - inicioSimulado) / 1000);
+        const limit = tempoLimite * 60;
+        const rest  = Math.max(0, limit - diff);
+        const m     = String(Math.floor(rest / 60)).padStart(2,'0');
+        const s     = String(rest % 60).padStart(2,'0');
+        const el    = document.getElementById('cronometro');
+        el.textContent = m + ':' + s;
+        el.style.color  = rest < 300 ? '#C0392B' : '';
+        if (rest === 0) { clearInterval(cronometroTimer); finalizarSimulado(true); }
+    };
+    tick();   // mostra o tempo restante logo de início
+    cronometroTimer = setInterval(tick, 1000);
+}
+
+// ── Finalizar ─────────────────────────────────────────────
+function finalizarSimulado(automatico) {
+    const resp = Object.keys(respostas).length;
+    if (!automatico && resp < questoes.length) {
+        if (!confirm('Você respondeu ' + resp + ' de ' + questoes.length + ' questões.\nDeseja finalizar mesmo assim?')) return;
+    }
+    clearInterval(cronometroTimer);
+
+    let acertos = 0;
+    questoes.forEach((q, idx) => {
+        const correta = (q.gabarito || '').toUpperCase();
+        const usuario = (respostas[idx] || '').toUpperCase();
+        if (correta && usuario === correta) acertos++;
+    });
+
+    const erros   = questoes.length - acertos;
+    const nota    = questoes.length > 0 ? (acertos / questoes.length) * 10 : 0;
+    const minutos = Math.ceil((new Date() - inicioSimulado) / 60000);
+
+    document.getElementById('simuladoAndamento').style.display = 'none';
+    document.getElementById('resultadoSimulado').style.display = 'block';
+    document.getElementById('notaFinal').textContent    = nota.toFixed(1).replace('.',',');
+    document.getElementById('totalAcertos').textContent = acertos;
+    document.getElementById('totalErros').textContent   = erros;
+    document.getElementById('tempoGasto').textContent   = minutos;
+    renderDetalhes();
+    // atualiza o Progresso de Estudos (página inicial e Minha Área)
+    if (resp > 0 && window.OMAVEST_registrarSimulado) OMAVEST_registrarSimulado({ materia: materiaAtual, acertos, total: questoes.length });
+    window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+// ── Gabarito detalhado com EXPLICAÇÕES IA ─────────────────
+function renderDetalhes() {
+    document.getElementById('detalhesContainer').innerHTML = questoes.map((q, idx) => {
+        const correta = (q.gabarito || '').toUpperCase();
+        const usuario = (respostas[idx] || '').toUpperCase();
+        const acertou = usuario === correta;
+        const semResposta = !usuario;
+        const alts    = [
+            { l:'A', t: q.altA }, { l:'B', t: q.altB }, { l:'C', t: q.altC },
+            { l:'D', t: q.altD }, { l:'E', t: q.altE },
+        ].filter(a => a.t);
+
+        const altCorreta  = alts.find(a => a.l === correta);
+        const altUsuario  = alts.find(a => a.l === usuario);
+
+        return `
+        <div class="questao-card" id="detalhe-${idx}">
+
+            <!-- Cabeçalho colorido de acerto/erro -->
+            <div class="detalhe-header-badge ${acertou ? 'detalhe-header-acerto' : 'detalhe-header-erro'}">
+                <div>
+                    <div class="detalhe-badge-label">${acertou ? '✅ Você acertou!' : semResposta ? '⏭️ Não respondida' : '❌ Você errou'}</div>
+                    <div style="font-size:.8rem;opacity:.75;margin-top:.2rem">Questão ${idx+1} de ${questoes.length} — ${q.fonte} ${q.ano}</div>
+                </div>
+                <span class="questao-dificuldade ${q.dificuldade}" style="flex-shrink:0">${q.dificuldade || 'Médio'}</span>
+            </div>
+
+            <!-- Enunciado -->
+            <div class="questao-enunciado" style="margin-bottom:1rem">${escapeHtml(q.enunciado)}</div>
+
+            <!-- Resumo rápido (só em caso de erro) -->
+            ${!acertou && !semResposta ? `
+            <div class="resumo-resposta">
+                <div class="resumo-box resumo-box-errada">
+                    <div class="resumo-box-label">Sua resposta</div>
+                    <div>${usuario}) ${escapeHtml(altUsuario ? altUsuario.t : '—')}</div>
+                </div>
+                <div class="resumo-box resumo-box-certa">
+                    <div class="resumo-box-label">Resposta correta</div>
+                    <div>${correta}) ${escapeHtml(altCorreta ? altCorreta.t : '—')}</div>
+                </div>
+            </div>` : ''}
+
+            <!-- Todas as alternativas -->
+            <div class="alternativas">
+                ${alts.map(a => {
+                    let cls = 'alternativa';
+                    let tag = '';
+                    if (a.l === correta && acertou) {
+                        cls += ' correta';
+                        tag = '<span class="alt-tag tag-correta">✓ Correta • Sua resposta</span>';
+                    } else if (a.l === correta) {
+                        cls += ' correta';
+                        tag = '<span class="alt-tag tag-correta">✓ Correta</span>';
+                    } else if (a.l === usuario && !acertou) {
+                        cls += ' errada-usuario';
+                        tag = '<span class="alt-tag tag-sua">✗ Sua resposta</span>';
+                    } else {
+                        cls += ' neutra';
+                    }
+                    return `
+                    <div class="${cls}">
+                        <div class="alternativa-letra">${a.l}</div>
+                        <div class="alternativa-texto">${escapeHtml(a.t)}${tag}</div>
+                    </div>`;
+                }).join('')}
+            </div>
+
+            <!-- Botão de explicação IA (só nos erros) -->
+            ${!acertou && !semResposta ? `
+            <div style="margin-top:1.25rem;padding-top:1.25rem;border-top:2px solid #f3f4f6">
+                <button 
+                    onclick="gerarExplicacao(${idx})"
+                    id="btn-exp-${idx}"
+                    style="width:100%;padding:.875rem;background:linear-gradient(135deg,#3F8D70,#275E4C);color:white;border:none;border-radius:.75rem;font-weight:700;font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.6rem;transition:opacity .2s;box-shadow:0 4px 12px rgba(39,94,76,.3)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"></path>
+                        <path d="M12 16v-4"></path><path d="M12 8h.01"></path>
+                    </svg>
+                    <span>💡 Entender por que errei — Explicação OMAVEST IA</span>
+                </button>
+                <div id="explicacao-${idx}" aria-live="polite" style="display:none;margin-top:1rem;padding:1.25rem;background:linear-gradient(135deg,#EEF6F2,#EEF6F2);border-left:4px solid #275E4C;border-radius:.75rem"></div>
+            </div>
+            ` : acertou ? `
+            <div style="margin-top:1rem;padding:.75rem 1rem;background:#f0fdf4;border-radius:.75rem;font-size:.875rem;color:#15803d;font-weight:600;text-align:center">
+                🎉 Parabéns! Você acertou essa questão.
+            </div>` : ''}
+        </div>`;
+    }).join('');
+}
+
+// ── Gerar explicação com Claude AI ────────────────────────
+async function gerarExplicacao(idx) {
+    const btn = document.getElementById(`btn-exp-${idx}`);
+    const container = document.getElementById(`explicacao-${idx}`);
+    const q = questoes[idx];
+    
+    // Mostrar loading
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    btn.innerHTML = '<div class="spin" style="width:20px;height:20px;border:3px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite"></div><span>Gerando explicação...</span>';
+    
+    container.style.display = 'block';
+    container.innerHTML = '<p style="color:#56606A;font-style:italic">✨ A IA do OMAVEST está analisando a questão...</p>';
+
+    try {
+        const prompt = `Você é um professor explicando por que a alternativa correta está certa em uma questão de vestibular.
+
+QUESTÃO:
+${q.enunciado}
+
+ALTERNATIVAS:
+A) ${q.altA}
+B) ${q.altB}
+C) ${q.altC}
+D) ${q.altD}
+E) ${q.altE}
+
+RESPOSTA CORRETA: ${q.gabarito}
+RESPOSTA DO ALUNO: ${respostas[idx]}
+
+Por favor, explique de forma clara e didática:
+1. Por que a alternativa ${q.gabarito} está correta
+2. O raciocínio necessário para chegar nessa resposta
+3. Por que a alternativa ${respostas[idx]} que o aluno escolheu estava incorreta
+
+Seja direto, use linguagem simples e foque no aprendizado. Máximo 200 palavras.`;
+
+        const response = await fetch((window.OMAVEST_API || "http://localhost:5000/api") + "/ia/explicacao", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt })
+        });
+
+        const data = await response.json();
+
+        // Se servidor retornou erro com mensagem, usa ela
+        if (!response.ok) {
+            throw new Error(data.message || `Erro ${response.status} do servidor`);
+        }
+        
+        if (data.success && data.texto) {
+            const explicacao = data.texto;
+            container.innerHTML = `
+                <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.875rem">
+                    <div style="width:32px;height:32px;background:linear-gradient(135deg,#3F8D70,#275E4C);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2z"></path><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                    </div>
+                    <h4 style="font-size:.95rem;font-weight:800;color:#14382C;margin:0">💡 Explicação OMAVEST IA</h4>
+                </div>
+                <div style="color:#14382C;line-height:1.7;white-space:pre-wrap;font-size:.9rem">${escapeHtml(explicacao).replace(/<br>/g, "\n")}</div>
+                <div style="margin-top:.875rem;padding-top:.875rem;border-top:1px solid #CFE6DB;font-size:.75rem;color:#275E4C;font-style:italic">✨ ${data.modo === "local" ? "Explicação gerada no modo offline do OMAVEST" : "Gerado pela IA do OMAVEST"}</div>
+            `;
+            btn.style.display = 'none'; // Esconder botão após gerar
+        } else {
+            throw new Error('Resposta inválida da API');
+        }
+        
+    } catch (error) {
+        console.error('Erro ao gerar explicação:', error);
+        container.innerHTML = `
+            <p style="color:#dc2626;font-weight:600">⚠️ Erro ao gerar explicação. Tente novamente.</p>
+            <p style="color:#56606A;font-size:0.875rem;margin-top:0.5rem">${error.message || 'Erro desconhecido'}</p>
+        `;
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><span>Tentar Novamente</span>';
+    }
+}
+
+// ── Reiniciar ─────────────────────────────────────────────
+function novoSimulado() {
+    document.getElementById('resultadoSimulado').style.display = 'none';
+    document.getElementById('selecaoMateria').style.display    = 'block';
+    questoes = []; respostas = {}; respondidas = new Set();
+    clearInterval(cronometroTimer);
+    window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+// ── Menu mobile ───────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof initCursor === 'function') initCursor();
+    const btn  = document.getElementById('menuBtn');
+    const menu = document.getElementById('mobileMenu');
+    const icon = document.getElementById('menuIcon');
+    if (btn) {
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('show');
+            icon.innerHTML = menu.classList.contains('show')
+                ? '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>'
+                : '<line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line>';
+        });
+    }
+
+    // ── Auto-iniciar simulado via parâmetro de URL (?materia=Matemática) ──
+    const params  = new URLSearchParams(window.location.search);
+    const materia = params.get('materia');
+    if (materia) {
+        carregarDados().then(d => { if (d.config[materia]) iniciarSimulado(materia); }).catch(() => {});
+    }
+});
+</script>
+<script src="../js/java.js?v=omavest7"></script>
+</body>
+</html>

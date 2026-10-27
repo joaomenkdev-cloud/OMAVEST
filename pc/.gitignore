@@ -1,0 +1,21 @@
+# .NET
+bin/
+obj/
+
+# Banco local (recriado automaticamente)
+backend/omavest.db
+backend/omavest.db-shm
+backend/omavest.db-wal
+
+# Credenciais reais do Firebase (opcional) - nunca versionar
+js/firebase-config.js
+.firebaserc
+
+*.log
+node_modules/
+.firebase/
+.vscode/
+.idea/
+*.user
+Thumbs.db
+.DS_Store
