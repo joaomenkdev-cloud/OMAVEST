@@ -539,6 +539,8 @@ Feedback demonstrativo do OMAVEST, sem valor oficial.`;
     main.setAttribute('tabindex','-1');
     document.body.insertAdjacentHTML('afterbegin',`<a class="skip-link" href="#${main.id}">Pular para o conteúdo</a>`);
   }
+  function prefersLessMotion(){return document.documentElement.classList.contains('a11y-movimento')||matchMedia('(prefers-reduced-motion: reduce)').matches}
+  function scrollToEl(el){if(!el)return;el.scrollIntoView({block:'start',behavior:prefersLessMotion()?'auto':'smooth'});if(!el.hasAttribute('tabindex'))el.setAttribute('tabindex','-1');el.focus({preventScroll:true});}
 
   /* ===== Acessibilidade: preferências do aparelho, aplicadas em todas as páginas ===== */
   const A11Y_KEY='omavest_a11y_v1';
@@ -625,6 +627,19 @@ Feedback demonstrativo do OMAVEST, sem valor oficial.`;
     return `<figure class="question-print"><div class="question-print-frame" ${zoom}><img src="${escapeHtml(q.imagem)}" alt="Print da ${escapeHtml(ref.replace(' • ',', '))}" ${width} width="${Number(q.largura)||''}" height="${Number(q.altura)||''}" loading="lazy" decoding="async"></div><figcaption><span>${escapeHtml(caption)} • Fonte: INEP</span><button type="button" class="print-zoom-btn" ${zoom} aria-label="Ampliar imagem da ${escapeHtml(ref.replace(' • ',', '))}">${icon('zoom','icon-sm')} Ampliar</button></figcaption></figure>
       <details class="question-text-alt"><summary>Ler questão em texto</summary><p>${escapeHtml(q.enunciado)}</p><ul>${Object.entries(q.alternativas||{}).map(([k,v])=>`<li><b>${k})</b> ${escapeHtml(v)}</li>`).join('')}</ul></details>`;
   }
+  // selected = letra marcada; correct = gabarito (quando informado, a questão aparece corrigida: verde/vermelho).
+  function alternativesHtml(q,{selected='',correct='',locked=false,toggle=false}={}){
+    const print=!!q.imagem;
+    return `${print?'<p class="answer-row-label">Marque a alternativa:</p>':''}<div class="alternatives${print?' answer-row':''}" role="group" aria-label="Alternativas">${Object.entries(q.alternativas||{}).map(([k,v])=>{
+      const isRight=!!correct&&k===correct,isWrong=!!correct&&k===selected&&selected!==correct,isSel=!correct&&k===selected;
+      const cls=isRight?'correct':isWrong?'wrong':isSel?'selected':'';
+      const note=isRight?' (resposta correta)':isWrong?' (sua resposta, incorreta)':'';
+      const attrs=`class="alternative${print?' letter-only':''} ${cls}" type="button" data-q="${q.id}" data-a="${k}"${locked?' disabled':''}${toggle?` aria-pressed="${isSel}"`:''}`;
+      return print
+        ?`<button ${attrs} aria-label="Alternativa ${k}: ${escapeHtml(v)}${note}"><span class="letter">${k}</span></button>`
+        :`<button ${attrs}><span class="letter">${k}</span><span>${escapeHtml(v)}</span>${note?`<span class="sr-only">${note}</span>`:''}</button>`;
+    }).join('')}</div>`;
+  }
   function openImageViewer(src,caption=''){
     let dlg=document.querySelector('#imageViewer');
     if(!dlg){
@@ -641,5 +656,5 @@ Feedback demonstrativo do OMAVEST, sem valor oficial.`;
   document.addEventListener('click',e=>{const b=e.target.closest('[data-zoom-src]');if(b)openImageViewer(b.dataset.zoomSrc,b.dataset.zoomCaption);});
 
   applyA11y();
-  window.OMAVEST={api,apiOr,post,put,patch,initAuth,getUser,getIdToken,login,register,getAccount,updateAccount,changePassword,logout,isFirebaseConfigured,isDemoMode,resetDemo,mountShell,toast,announce,escapeHtml,icon,mountA11yMenu,questionBodyHtml,openImageViewer,getTheme:()=>currentTheme,setTheme,toggleTheme,refreshThemeControls,getCommunityPosts,createCommunityPost,toggleCommunityLike,addCommunityComment,getCommunityLinks,updateCommunityLinks,recordDonation,getDonations,setExamHandoff,getExamHandoff,clearExamHandoff,_state:()=>state};
+  window.OMAVEST={api,apiOr,post,put,patch,initAuth,getUser,getIdToken,login,register,getAccount,updateAccount,changePassword,logout,isFirebaseConfigured,isDemoMode,resetDemo,mountShell,toast,announce,escapeHtml,icon,mountA11yMenu,questionBodyHtml,alternativesHtml,openImageViewer,scrollToEl,getTheme:()=>currentTheme,setTheme,toggleTheme,refreshThemeControls,getCommunityPosts,createCommunityPost,toggleCommunityLike,addCommunityComment,getCommunityLinks,updateCommunityLinks,recordDonation,getDonations,setExamHandoff,getExamHandoff,clearExamHandoff,_state:()=>state};
 })();
