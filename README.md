@@ -1,28 +1,17 @@
-# OMAVEST — Plataforma de Vestibulares (TCC ETEC)
+# OMAVEST Offline Demo v9
 
-Plataforma de preparação e gestão de processo seletivo (ENEM, FUVEST, UNICAMP): site com simulados, redação com correção por IA, provas anteriores, cronograma, notícias e área do candidato — mais o app mobile.
+Protótipo funcional do TCC OMAVEST. Não é necessário instalar .NET, banco de dados ou servidor para a demonstração.
 
-| Pasta | O que é |
-|---|---|
-| `pc/` | Site + API (ASP.NET Core .NET 10 + SQLite). O servidor entrega o site e a API juntos. |
-| `mobile/LHubApp/LHubApp/` | App mobile OMAVEST (React Native / Expo). |
-| `apresentacao-tcc/` | Slides do TCC (`OMAVEST-TCC.pptx`, gerado por `node build.js`). |
+1. Extraia o ZIP.
+2. Abra `index.html`.
+3. Entre com `demo@omavest.com` / `123456` ou crie uma conta local.
 
-## Rodar em 1 clique (Windows)
+## Escopo da v9
+A versão principal é executada no navegador com HTML, CSS, JavaScript e armazenamento local. O Planejamento semanal persiste apenas a rotina definida pelo estudante. Simulados, histórico, questões, redação, perfil e preferências também funcionam localmente.
 
-1. **`INICIAR-OMAVEST.bat`** — sobe o servidor e abre o site em http://localhost:5000
-   (precisa do [.NET 10 SDK](https://dotnet.microsoft.com/download); o banco é criado sozinho).
-2. **`INICIAR-APP-MOBILE.bat`** — escolha **W** para ver o app no navegador em formato de celular
-   (precisa do [Node.js](https://nodejs.org)); **A** para rodar no Android.
+O banco de questões combina questões autorais com questões oficiais do ENEM 2023 em formato de print (recortes do caderno do INEP, em `pc/assets/questoes/`). A página Provas antigas direciona para os acervos oficiais completos quando houver internet.
 
-**Conta de demonstração:** `demo@omavest.com` / `123456` (site e app).
-
-## Checklist para apresentar
-
-- [ ] Rode `INICIAR-OMAVEST.bat` **antes** e deixe a janela aberta.
-- [ ] Site: na página inicial clique em **Entrar na conta demo** (card "Progresso de Estudos") → Simulados (faça e finalize um: o progresso sobe) → "Entender por que errei" → Redação → **Minha Área** (progresso + histórico; link "Reiniciar demonstração" volta tudo ao início).
-- [ ] App: `INICIAR-APP-MOBILE.bat` → W → botão **Entrar com a conta demo**.
-- [ ] Celular real: PC e celular no mesmo Wi-Fi; no app, rodapé do login → *Servidor* → IP mostrado na janela do servidor. (Se o Windows perguntar sobre o Firewall, permita a rede **privada**.)
-- [ ] IA: funciona sem chave (modo offline). Para IA real defina `GROQ_API_KEY` antes de abrir o servidor.
-
-Detalhes técnicos: [`pc/README.md`](pc/README.md) e [`mobile/LHubApp/LHubApp/README.md`](mobile/LHubApp/LHubApp/README.md).
+## v11 - canais oficiais
+- Discord: https://discord.gg/kPTPrRhwz
+- YouTube: https://www.youtube.com/channel/UCjPDSXZSQTCbN0D2bCLgeGg
+- Os links são fixos e não precisam ser configurados.

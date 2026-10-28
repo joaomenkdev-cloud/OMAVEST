@@ -1,0 +1,19 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>(function(){try{var t=localStorage.getItem("omavest_theme_v1")||"dark";document.documentElement.dataset.theme=(t==="light"?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})();</script><link rel="icon" type="image/png" href="../assets/favicon.png"><title>OMAVEST • Redação</title><link rel="stylesheet" href="../css/omavest.css"></head><body><div class="app-shell"><aside id="sidebar" class="sidebar"></aside><div class="main-column"><header id="topbar" class="topbar"></header><main class="page"><div class="page-heading"><div><h1>Redação</h1><p>Escolha um tema recente, escreva e receba feedback educacional do protótipo.</p></div></div>
+<div class="card notice-card"><span class="tag yellow">Protótipo</span><p>A pontuação e o feedback são recursos locais de estudo. Eles não substituem a correção oficial de nenhuma banca.</p></div>
+<section class="redacao-editor"><article class="card editor-panel">
+<div class="field"><label for="essayPreset">Tema de vestibular</label><select id="essayPreset">
+<option value="enem2025">ENEM 2025 • Perspectivas acerca do envelhecimento na sociedade brasileira</option>
+<option value="fuvest2026">FUVEST 2026 • O perdão</option>
+<option value="unesp2026">UNESP 2026 • Vivemos hoje uma epidemia da solidão?</option>
+<option value="unicamp2026a">UNICAMP 2026 • Machosfera e discurso de ódio contra as mulheres</option>
+<option value="unicamp2026b">UNICAMP 2026 • Importância histórica da CLT</option>
+<option value="enem2024">ENEM 2024 • Valorização da herança africana no Brasil</option>
+<option value="unesp2025">UNESP 2025 • Medicalização da vida: a quem interessa?</option>
+<option value="livre">Tema livre</option>
+</select></div>
+<div id="essayPresetInfo" class="preset-info"></div>
+<div class="field" style="margin-top:12px"><label for="essayTheme">Tema</label><input id="essayTheme"></div>
+<div class="field" style="margin-top:12px"><label for="essayTitle">Título (opcional)</label><input id="essayTitle"></div>
+<div class="field" style="margin-top:12px"><label for="essayText">Redação</label><textarea id="essayText" placeholder="Escreva sua redação aqui..."></textarea></div>
+<div class="meta-row essay-actions" style="justify-content:space-between;margin-top:8px"><span id="essayCount">0 caracteres</span><button id="correctEssay" class="primary-btn">Analisar redação</button></div></article>
+<aside class="card essay-feedback-card"><h3>Feedback</h3><div id="essayScore" class="essay-score" style="margin:10px 0">--</div><div id="essayFeedback" class="feedback-box muted">Seu feedback aparecerá aqui.</div><div id="essaySources" class="source-list"></div></aside></section></main></div></div><script src="../js/demo-core.js"></script><script src="../js/demo-pages/redacao.js"></script></body></html>

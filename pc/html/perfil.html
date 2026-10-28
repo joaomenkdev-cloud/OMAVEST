@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script>(function(){try{var t=localStorage.getItem("omavest_theme_v1")||"dark";document.documentElement.dataset.theme=(t==="light"?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})();</script>
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <title>OMAVEST • Meu perfil</title>
+  <link rel="stylesheet" href="../css/omavest.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside id="sidebar" class="sidebar"></aside>
+  <div class="main-column">
+    <header id="topbar" class="topbar"></header>
+    <main class="page">
+      <div class="page-heading">
+        <div><h1>Meu perfil</h1><p>Edite seus dados locais e preferências de estudo.</p></div>
+      </div>
+
+      <section class="profile-layout">
+        <aside class="card profile-summary">
+          <div id="profileAvatar" class="profile-avatar">A</div>
+          <h2 id="profileDisplayName">Aluno</h2>
+          <p id="profileDisplayEmail">email@exemplo.com</p>
+          <span class="tag green">Conta local</span>
+          <div class="profile-summary-divider"></div><a class="secondary-btn profile-settings-link" href="configuracoes.html"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 13a8 8 0 0 0 0-2l2-1.4-2-3.4-2.3.9a8 8 0 0 0-1.7-1L15 3h-4l-.4 2.1a8 8 0 0 0-1.7 1l-2.3-.9-2 3.4L6.6 11a8 8 0 0 0 0 2l-2 1.4 2 3.4 2.3-.9a8 8 0 0 0 1.7 1L11 21h4l.4-2.1a8 8 0 0 0 1.7-1l2.3.9 2-3.4-2-1.4Z"/></svg> Configurações</a>
+          <div class="profile-summary-row"><span>Vestibular</span><strong id="profileTargetSummary">ENEM</strong></div>
+          <div class="profile-summary-row"><span>Estudo diário</span><strong id="profileMinutesSummary">120 min</strong></div>
+        </aside>
+
+        <div class="profile-main">
+          <article class="card">
+            <div class="card-heading"><div><h3>Dados da conta</h3><p>Essas informações aparecem no topo da plataforma.</p></div></div>
+            <form id="accountForm" class="form-grid">
+              <div class="field"><label for="profileName">Nome</label><input id="profileName" autocomplete="name"></div>
+              <div class="field"><label for="profileEmail">E-mail</label><input id="profileEmail" type="email" autocomplete="email"></div>
+              <div class="field"><label for="profileExam">Vestibular alvo</label><input id="profileExam" placeholder="ENEM"></div>
+              <div class="field"><label for="profileDate">Data da prova</label><input id="profileDate" type="date"></div>
+              <div class="field"><label for="profileMinutes">Minutos de estudo por dia</label><input id="profileMinutes" type="number" min="15" max="720" step="15"></div>
+              <div class="field full"><button class="primary-btn" type="submit">Salvar alterações</button></div>
+            </form>
+          </article>
+
+          <article class="card danger-zone">
+            <div><h3>Sessão</h3><p>Ao sair, seus dados permanecem salvos localmente para o próximo acesso.</p></div>
+            <button id="profileLogoutBtn" class="danger-btn" type="button">Sair da conta</button>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+<script src="../js/demo-core.js"></script>
+<script src="../js/demo-pages/perfil.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+OMAVEST OFFLINE DEMO v8
+
+1) Extraia o arquivo ZIP.
+2) Dê dois cliques em index.html.
+3) Entre com:
+   E-mail: demo@omavest.com
+   Senha: 123456
+
+Também é possível criar uma conta local.
+
+Novidades da v8:
+- cronograma horizontal por dia da semana;
+- escolha de matéria, horário e duração em cada dia;
+- filtros de questões revisados e com contador de resultados;
+- abas Matérias e Conteúdos removidas da navegação;
+- pesquisa global direcionada ao banco de questões.
