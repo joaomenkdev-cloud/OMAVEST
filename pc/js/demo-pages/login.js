@@ -1,5 +1,5 @@
 (async function(){
-  const { login, register, toggleTheme, refreshThemeControls, getUser } = window.OMAVEST;
+  const { login, register, toggleTheme, refreshThemeControls, getUser, mountA11yMenu } = window.OMAVEST;
   const status=document.querySelector('#loginStatus');
   const title=document.querySelector('#authTitle');
   const subtitle=document.querySelector('#authSubtitle');
@@ -58,6 +58,8 @@
     }
   });
   document.querySelector('[data-theme-toggle]')?.addEventListener('click',()=>toggleTheme());
+  const a11yHost=document.createElement('div');a11yHost.className='login-a11y';document.body.prepend(a11yHost);
+  mountA11yMenu(a11yHost);
   refreshThemeControls();
   setMode('login');
 })().catch(function(e){ console.error(e); if(window.OMAVEST) window.OMAVEST.toast('Erro no login: '+e.message); });

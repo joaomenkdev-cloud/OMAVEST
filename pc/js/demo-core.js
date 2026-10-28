@@ -26,6 +26,7 @@
     messageCircle:'<path d="M21 12a8 8 0 0 1-8 8H8l-5 3 1.5-4.5A8 8 0 1 1 21 12Z"/>',
     play:'<circle cx="12" cy="12" r="9"/><path d="M10 8.5 16 12l-6 3.5Z"/>',
     bookOpen:'<path d="M12 6.5C10.5 5 8 4.3 5 4.5v13c3 0 5.5.7 7 2.2 1.5-1.5 4-2.2 7-2.2v-13c-3-.2-5.5.5-7 2Z"/><path d="M12 6.5V19.7"/>',
+    accessibility:'<circle cx="12" cy="4.5" r="1.8"/><path d="M4.5 8.5c2.4.8 4.9 1.2 7.5 1.2s5.1-.4 7.5-1.2"/><path d="M12 9.7V14"/><path d="M8.5 21 12 14l3.5 7"/>',
   };
   function icon(name,cls){
     return `<svg class="icon${cls?' '+cls:''}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[name]||''}</svg>`;
@@ -500,6 +501,9 @@ Feedback demonstrativo do OMAVEST, sem valor oficial.`;
     const user=state.user,name=user?.displayName||user?.email?.split('@')[0]||'Estudante',initial=(name.trim()[0]||'E').toUpperCase();
     topbar.innerHTML=`<a class="mobile-brand" href="index.html" aria-label="OMAVEST - Início"><img src="../assets/favicon.png" alt=""></a><div class="topbar-spacer"></div><div class="user-tools"><span class="demo-badge">DEMO</span><button class="theme-toggle" data-theme-toggle type="button" aria-label="Alternar tema"></button><a class="user-profile-link" href="perfil.html" title="Abrir perfil" aria-label="Abrir perfil de ${escapeHtml(name)}"><span class="avatar" aria-hidden="true">${initial}</span><span class="user-name">${escapeHtml(name)}</span></a></div>`;
     document.querySelector('[data-theme-toggle]')?.addEventListener('click',()=>toggleTheme());
+    mountA11yMenu(topbar.querySelector('.user-tools'),topbar.querySelector('[data-theme-toggle]'));
+    mountSkipLink();
+    document.querySelectorAll('[data-a11y-controls]').forEach(el=>{el.innerHTML=a11yControlsHtml();bindA11yControls(el);});
     refreshThemeControls();
   }
   function toast(message){const old=document.querySelector('.toast');old?.remove();const el=document.createElement('div');el.className='toast';el.textContent=message;document.body.appendChild(el);announce(message);setTimeout(()=>el.remove(),3600)}
@@ -509,5 +513,87 @@ Feedback demonstrativo do OMAVEST, sem valor oficial.`;
     if(!live){live=document.createElement('div');live.id='srLive';live.className='sr-only';live.setAttribute('role','status');live.setAttribute('aria-live','polite');document.body.appendChild(live);}
     live.textContent='';setTimeout(()=>{live.textContent=message},60);
   }
-  window.OMAVEST={api,apiOr,post,put,patch,initAuth,getUser,getIdToken,login,register,getAccount,updateAccount,changePassword,logout,isFirebaseConfigured,isDemoMode,resetDemo,mountShell,toast,announce,escapeHtml,icon,getTheme:()=>currentTheme,setTheme,toggleTheme,refreshThemeControls,getCommunityPosts,createCommunityPost,toggleCommunityLike,addCommunityComment,getCommunityLinks,updateCommunityLinks,recordDonation,getDonations,setExamHandoff,getExamHandoff,clearExamHandoff,_state:()=>state};
+  function mountSkipLink(){
+    const main=document.querySelector('main');if(!main||document.querySelector('.skip-link'))return;
+    if(!main.id)main.id='conteudo';
+    main.setAttribute('tabindex','-1');
+    document.body.insertAdjacentHTML('afterbegin',`<a class="skip-link" href="#${main.id}">Pular para o conteúdo</a>`);
+  }
+
+  /* ===== Acessibilidade: preferências do aparelho, aplicadas em todas as páginas ===== */
+  const A11Y_KEY='omavest_a11y_v1';
+  const A11Y_FONT_STEPS=[100,115,130,150];
+  const A11Y_DEFAULTS={fonte:0,contraste:false,leitura:false,links:false,movimento:false,libras:false};
+  const A11Y_TOGGLES=[
+    ['contraste','Alto contraste','Cores mais fortes e bordas bem definidas.'],
+    ['leitura','Leitura facilitada','Fonte mais legível e mais espaço entre letras e linhas.'],
+    ['links','Destacar links e botões','Sublinha links e contorna os elementos clicáveis.'],
+    ['movimento','Reduzir animações','Desliga transições e efeitos de movimento.'],
+    ['libras','Libras (VLibras)','Tradutor de Libras do Governo Federal. Precisa de internet.']
+  ];
+  let a11y=readA11y();
+  function readA11y(){
+    let prefs=state?.a11y;
+    if(!prefs){try{prefs=JSON.parse(localStorage.getItem(A11Y_KEY)||'null')}catch{}}
+    return Object.assign({},A11Y_DEFAULTS,prefs||{});
+  }
+  function applyA11y(){
+    const root=document.documentElement;
+    if(a11y.fonte>0)root.dataset.a11yFonte=String(a11y.fonte);else delete root.dataset.a11yFonte;
+    ['contraste','leitura','links','movimento','libras'].forEach(k=>root.classList.toggle('a11y-'+k,!!a11y[k]));
+    if(a11y.libras)loadVLibras();
+    refreshA11yControls();
+  }
+  function setA11y(patch){
+    a11y=Object.assign({},a11y,patch);
+    a11y.fonte=Math.max(0,Math.min(A11Y_FONT_STEPS.length-1,Number(a11y.fonte)||0));
+    try{localStorage.setItem(A11Y_KEY,JSON.stringify(a11y))}catch{}
+    if(state){state.a11y=a11y;saveState();}
+    applyA11y();
+  }
+  function a11yControlsHtml(){
+    return `<div class="a11y-group" role="group" aria-label="Tamanho do texto"><span class="a11y-label" aria-hidden="true">Tamanho do texto</span><div class="a11y-font-row"><button type="button" class="a11y-step" data-a11y-font="-1" aria-label="Diminuir texto">A−</button><output class="a11y-font-value" data-a11y-font-value aria-live="polite">100%</output><button type="button" class="a11y-step" data-a11y-font="1" aria-label="Aumentar texto">A+</button></div></div>
+      <div class="a11y-switches">${A11Y_TOGGLES.map(([k,label,desc])=>`<button type="button" class="a11y-switch" role="switch" aria-checked="false" data-a11y-toggle="${k}"><span class="a11y-switch-copy"><strong>${label}</strong><small>${desc}</small></span><span class="a11y-switch-track" aria-hidden="true"><span></span></span></button>`).join('')}</div>
+      <button type="button" class="ghost-btn a11y-reset" data-a11y-reset>Restaurar padrão</button>`;
+  }
+  function bindA11yControls(root){
+    root.querySelectorAll('[data-a11y-font]').forEach(b=>b.addEventListener('click',()=>setA11y({fonte:a11y.fonte+Number(b.dataset.a11yFont)})));
+    root.querySelectorAll('[data-a11y-toggle]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.a11yToggle;setA11y({[k]:!a11y[k]});if(k==='libras'&&a11y.libras)toast('VLibras ativado: use o botão do VLibras na lateral direita da tela.');}));
+    root.querySelector('[data-a11y-reset]')?.addEventListener('click',()=>{setA11y(A11Y_DEFAULTS);toast('Preferências de acessibilidade restauradas.');});
+    refreshA11yControls();
+  }
+  function refreshA11yControls(){
+    document.querySelectorAll('[data-a11y-font-value]').forEach(el=>el.textContent=A11Y_FONT_STEPS[a11y.fonte]+'%');
+    document.querySelectorAll('[data-a11y-font="-1"]').forEach(b=>b.disabled=a11y.fonte<=0);
+    document.querySelectorAll('[data-a11y-font="1"]').forEach(b=>b.disabled=a11y.fonte>=A11Y_FONT_STEPS.length-1);
+    document.querySelectorAll('[data-a11y-toggle]').forEach(b=>b.setAttribute('aria-checked',a11y[b.dataset.a11yToggle]?'true':'false'));
+  }
+  function mountA11yMenu(host,before=null){
+    if(!host||host.querySelector('.a11y-menu'))return;
+    const wrap=document.createElement('div');wrap.className='a11y-menu';
+    wrap.innerHTML=`<button class="a11y-toggle" type="button" aria-expanded="false" aria-controls="a11yPanel" aria-label="Acessibilidade" title="Acessibilidade">${icon('accessibility')}</button><div class="a11y-panel" id="a11yPanel" role="dialog" aria-labelledby="a11yPanelTitle" hidden><div class="a11y-panel-head"><h2 id="a11yPanelTitle">Acessibilidade</h2><button type="button" class="a11y-close" aria-label="Fechar painel de acessibilidade">${icon('x')}</button></div>${a11yControlsHtml()}</div>`;
+    host.insertBefore(wrap,before&&before.parentNode===host?before:host.firstChild);
+    const btn=wrap.querySelector('.a11y-toggle'),panel=wrap.querySelector('.a11y-panel');
+    const close=(focus=true)=>{if(panel.hidden)return;panel.hidden=true;btn.setAttribute('aria-expanded','false');if(focus)btn.focus();};
+    const open=()=>{panel.hidden=false;btn.setAttribute('aria-expanded','true');panel.querySelector('.a11y-step:not([disabled])')?.focus();};
+    btn.addEventListener('click',()=>panel.hidden?open():close());
+    wrap.querySelector('.a11y-close').addEventListener('click',()=>close());
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+    document.addEventListener('click',e=>{if(!wrap.contains(e.target))close(false);});
+    bindA11yControls(panel);
+  }
+  let vlibrasRequested=false;
+  function loadVLibras(){
+    if(vlibrasRequested||!document.body)return;
+    vlibrasRequested=true;
+    // O plugin oficial cria o próprio botão (#vlibras-access-wrapper) assim que é carregado.
+    const script=document.createElement('script');
+    script.src='https://vlibras.gov.br/app/vlibras-plugin.js';
+    script.onload=()=>{try{new window.VLibras.Widget('https://vlibras.gov.br/app')}catch(e){console.warn('VLibras:',e)}};
+    script.onerror=()=>{vlibrasRequested=false;script.remove();toast('Não foi possível carregar o VLibras. Verifique a conexão com a internet.');};
+    document.head.appendChild(script);
+  }
+
+  applyA11y();
+  window.OMAVEST={api,apiOr,post,put,patch,initAuth,getUser,getIdToken,login,register,getAccount,updateAccount,changePassword,logout,isFirebaseConfigured,isDemoMode,resetDemo,mountShell,toast,announce,escapeHtml,icon,mountA11yMenu,getTheme:()=>currentTheme,setTheme,toggleTheme,refreshThemeControls,getCommunityPosts,createCommunityPost,toggleCommunityLike,addCommunityComment,getCommunityLinks,updateCommunityLinks,recordDonation,getDonations,setExamHandoff,getExamHandoff,clearExamHandoff,_state:()=>state};
 })();

@@ -633,3 +633,94 @@ body{transition:background-color .2s ease,color .2s ease}
   }
 }
 
+/* ===== OMAVEST PC v16: acessibilidade, questões em print e correção em vermelho ===== */
+[hidden]{display:none!important}
+:root{--right:#2a9d6b;--right-soft:rgba(42,157,107,.13);--wrong:#e5484d;--wrong-soft:rgba(229,72,77,.13);--wrong-text:#ff8f92;--accent-text:var(--yellow)}
+:root[data-theme="light"]{--right:#1f8a5b;--right-soft:#e8f6ef;--wrong:#d92d32;--wrong-soft:#fdecec;--wrong-text:#b42318;--accent-text:#8a6500}
+
+/* Recursos básicos para teclado e leitores de tela */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:fixed;left:12px;top:-80px;z-index:300;background:var(--yellow);color:#171717;font-weight:800;padding:11px 16px;border-radius:10px;box-shadow:var(--shadow);transition:top .15s ease}
+.skip-link:focus{top:12px}
+main:focus{outline:none}
+:root[data-theme="light"] :focus-visible{outline-color:#7a5900}
+:root[data-theme="light"] .question-number,:root[data-theme="light"] .timeline-date,:root[data-theme="light"] .exam-clock,:root[data-theme="light"] .schedule-day,:root[data-theme="light"] .result-score{color:var(--accent-text)}
+
+/* Botão e painel de acessibilidade */
+.a11y-menu{position:relative}
+.a11y-toggle{width:36px;height:36px;border:1px solid var(--border);border-radius:50%;background:var(--panel);color:var(--text);display:grid;place-items:center;font-size:20px;line-height:1;padding:0;transition:.2s ease}
+.a11y-toggle:hover{border-color:#7d838a;background:var(--panel-2)}
+.a11y-toggle[aria-expanded="true"]{background:var(--yellow);border-color:var(--yellow);color:#171717}
+.a11y-toggle svg{width:1em;height:1em;display:block}
+.a11y-panel{position:absolute;right:0;top:calc(100% + 10px);width:min(350px,calc(100vw - 24px));max-height:calc(100vh - 96px);overflow:auto;background:var(--panel);color:var(--text);border:1px solid var(--border);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.35);padding:16px;z-index:120;display:flex;flex-direction:column;gap:14px}
+.a11y-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.a11y-panel-head h2{margin:0;font-size:17px}
+.a11y-close{width:34px;height:34px;border:0;border-radius:9px;background:transparent;color:var(--muted);display:grid;place-items:center;font-size:18px}
+.a11y-close:hover{background:var(--surface-soft);color:var(--text)}
+.a11y-close svg{width:1em;height:1em}
+.a11y-label{display:block;font-size:13px;font-weight:800;margin-bottom:8px}
+.a11y-font-row{display:flex;align-items:center;gap:8px}
+.a11y-step{min-width:56px;height:42px;border-radius:11px;border:1px solid var(--border);background:var(--panel-2);color:var(--text);font-weight:900;font-size:15px}
+.a11y-step:hover:not(:disabled){border-color:var(--yellow)}
+.a11y-step:disabled{opacity:.4;cursor:not-allowed}
+.a11y-font-value{flex:1;text-align:center;font-weight:800;font-size:15px}
+.a11y-switches{display:flex;flex-direction:column;gap:7px}
+.a11y-switch{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;border:1px solid var(--border);background:var(--panel-2);color:var(--text);border-radius:12px;padding:10px 12px;transition:border-color .15s ease}
+.a11y-switch:hover{border-color:#7d838a}
+.a11y-switch-copy{display:flex;flex-direction:column;gap:2px;min-width:0}
+.a11y-switch-copy strong{font-size:14px}
+.a11y-switch-copy small{font-size:12px;color:var(--muted);line-height:1.35}
+.a11y-switch-track{flex:0 0 auto;width:42px;height:24px;border-radius:999px;background:var(--surface-raised);border:1px solid var(--border);position:relative;transition:background-color .15s ease}
+.a11y-switch-track span{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:transform .15s ease,background-color .15s ease}
+.a11y-switch[aria-checked="true"]{border-color:var(--yellow)}
+.a11y-switch[aria-checked="true"] .a11y-switch-track{background:var(--yellow);border-color:var(--yellow)}
+.a11y-switch[aria-checked="true"] .a11y-switch-track span{transform:translateX(18px);background:#171717}
+.a11y-reset{width:100%}
+.a11y-inline{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.a11y-card{grid-row:span 2}
+.login-a11y{position:fixed;right:70px;top:22px;z-index:10}
+@media(max-width:760px){
+  .a11y-toggle{width:35px;height:35px}
+  .a11y-panel{position:fixed;left:10px;right:10px;top:66px;width:auto;max-height:calc(100vh - 160px)}
+  .login-a11y{right:56px;top:14px}
+  .a11y-card{grid-row:auto}
+}
+
+/* Tamanho do texto (aplicado ao conteúdo; o layout se reorganiza sozinho) */
+:root[data-a11y-fonte="1"] .page,:root[data-a11y-fonte="1"] .login-card{zoom:1.15}
+:root[data-a11y-fonte="2"] .page,:root[data-a11y-fonte="2"] .login-card{zoom:1.3}
+:root[data-a11y-fonte="3"] .page,:root[data-a11y-fonte="3"] .login-card{zoom:1.5}
+:root[data-a11y-fonte] .nav-link,:root[data-a11y-fonte] .donation-nav{font-size:15.5px}
+
+/* Alto contraste */
+:root.a11y-contraste[data-theme="dark"]{--bg:#000;--bg-2:#000;--panel:#0b0b0b;--panel-2:#121212;--panel-3:#181818;--border:#cfcfcf;--line:#cfcfcf;--text:#fff;--muted:#ededed;--muted-2:#dcdcdc;--surface-input:#000;--surface-soft:#0e0e0e;--surface-raised:#1c1c1c;--topbar:#000;--yellow:#ffd400;--wrong:#ff4d4f;--wrong-soft:rgba(255,77,79,.2);--wrong-text:#ffb0b1;--right:#35d07f;--right-soft:rgba(53,208,127,.18)}
+:root.a11y-contraste[data-theme="light"]{--bg:#fff;--bg-2:#fff;--panel:#fff;--panel-2:#fff;--panel-3:#f0f0f0;--border:#000;--line:#000;--text:#000;--muted:#1a1a1a;--muted-2:#222;--surface-input:#fff;--surface-soft:#fff;--surface-raised:#ececec;--topbar:#fff;--wrong:#b00000;--wrong-soft:#ffe3e3;--wrong-text:#9a0000;--right:#006b2e;--right-soft:#e0f5e8;--accent-text:#5c4300}
+:root.a11y-contraste[data-theme="dark"] .sidebar{background:#000!important;border-color:#cfcfcf!important}
+:root.a11y-contraste[data-theme="light"] .sidebar{background:#fff!important;border-color:#000!important}
+:root.a11y-contraste .sidebar .nav-link{color:var(--text)!important}
+:root.a11y-contraste .sidebar .nav-link.active{outline:2px solid var(--text);outline-offset:-2px}
+:root.a11y-contraste :is(.card,.panel,.stat-card,.quick-card,.question-card,.timeline-item,.history-item,.event-card,.a11y-panel){border-width:2px}
+:root.a11y-contraste :is(.ghost-btn,.section-tab,.alternative,.print-zoom-btn,.field input,.field select,.field textarea,.a11y-switch,.a11y-step,.theme-toggle,.a11y-toggle,.answer-chip,.post-action){border:2px solid var(--text)}
+:root.a11y-contraste .tag{border:1px solid currentColor}
+:root.a11y-contraste .page a:not([class]){text-decoration:underline}
+:root.a11y-contraste :focus-visible{outline:3px solid var(--text);outline-offset:3px}
+:root.a11y-contraste .question-print-frame{border:2px solid var(--text)}
+
+/* Leitura facilitada */
+:root.a11y-leitura body{font-family:Verdana,Tahoma,"Segoe UI",Arial,sans-serif;letter-spacing:.03em;word-spacing:.12em}
+:root.a11y-leitura :is(.page p,.page li,.question-text,.answer-feedback p,.question-text-alt p){line-height:1.85}
+
+/* Destacar links e botões */
+:root.a11y-links .page a:not(.primary-btn):not(.secondary-btn):not(.ghost-btn):not(.card):not(.quick-card):not(.hero-banner):not(.schedule-item){text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:3px}
+:root.a11y-links :is(.page a,.page button,.page select,.page summary,.sidebar a,.topbar a,.topbar button){outline:2px dashed var(--yellow);outline-offset:2px}
+:root.a11y-links :focus-visible{outline:4px solid var(--text)!important;outline-offset:3px}
+
+/* Reduzir animações */
+:root.a11y-movimento{scroll-behavior:auto}
+:root.a11y-movimento *,:root.a11y-movimento *::before,:root.a11y-movimento *::after{animation:none!important;transition:none!important}
+:root.a11y-movimento :is(.primary-btn,.stat-card,.quick-card,.discipline-card,.theme-toggle,.theme-choice,.donation-nav):hover{transform:none!important}
+:root.a11y-movimento .donation-nav.active{transform:none!important}
+
+/* VLibras só aparece quando a opção estiver ligada */
+html:not(.a11y-libras) :is(#vlibras-access-wrapper,#vlibras-app-root){display:none!important}
+
