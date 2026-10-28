@@ -724,6 +724,13 @@ main:focus{outline:none}
 /* VLibras só aparece quando a opção estiver ligada */
 html:not(.a11y-libras) :is(#vlibras-access-wrapper,#vlibras-app-root){display:none!important}
 
+/* Filtros reduzidos: vestibular, matéria e ano */
+.question-filter-grid.compact-filters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:16px;align-items:end}
+.filter-inline-actions{display:flex;gap:8px}
+.filter-inline-actions .ghost-btn{min-height:46px;padding:0 22px}
+.filter-card .filter-result-info{margin:14px 0 0}
+@media(max-width:720px){.question-filter-grid.compact-filters{grid-template-columns:1fr}.filter-inline-actions .ghost-btn{width:100%}}
+
 /* Questões em formato de print */
 .question-list{display:flex;flex-direction:column;gap:14px}
 .question-topline .question-number{margin:0;font-size:13px;line-height:1.4;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
