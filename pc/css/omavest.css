@@ -724,3 +724,28 @@ main:focus{outline:none}
 /* VLibras só aparece quando a opção estiver ligada */
 html:not(.a11y-libras) :is(#vlibras-access-wrapper,#vlibras-app-root){display:none!important}
 
+/* Questões em formato de print */
+.question-list{display:flex;flex-direction:column;gap:14px}
+.question-topline .question-number{margin:0;font-size:13px;line-height:1.4;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.question-print{margin:16px 0 10px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.question-print-frame{max-width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff;cursor:zoom-in;line-height:0}
+.question-print-frame img{display:block;width:var(--print-w,100%);max-width:100%;height:auto}
+.question-print figcaption{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;font-size:12px;color:var(--muted)}
+.print-zoom-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;border:1px solid var(--border);background:var(--panel-3);color:var(--text);font-size:12px;font-weight:700}
+.print-zoom-btn:hover{border-color:#7d838a}
+.question-text-alt{margin:0 0 14px;border:1px solid var(--border);border-radius:12px;background:var(--surface-soft)}
+.question-text-alt summary{cursor:pointer;padding:10px 14px;font-weight:700;font-size:14px}
+.question-text-alt p{margin:0;padding:0 14px 10px;line-height:1.6;white-space:pre-line;font-size:14px}
+.question-text-alt ul{list-style:none;margin:0;padding:0 14px 12px;display:grid;gap:5px;font-size:14px}
+.answer-row-label{margin:0 0 8px;font-size:13px;font-weight:700;color:var(--muted)}
+.alternatives.answer-row{flex-direction:row;flex-wrap:wrap;gap:10px}
+.alternative.letter-only{width:auto;min-width:60px;min-height:50px;justify-content:center;align-items:center;padding:8px 14px}
+.alternative.letter-only .letter{width:32px;height:32px;font-size:14px}
+.image-viewer{border:0;padding:0;background:transparent;width:min(96vw,1100px);max-width:none;max-height:94vh;overflow:visible}
+.image-viewer::backdrop{background:rgba(0,0,0,.78)}
+.image-viewer-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 16px;background:var(--panel);color:var(--text);border:1px solid var(--border);border-bottom:0;border-radius:14px 14px 0 0}
+.image-viewer-bar strong{font-size:14px}
+.image-viewer-bar .ghost-btn{padding:8px 14px}
+.image-viewer-body{background:#fff;max-height:calc(94vh - 62px);overflow:auto;border-radius:0 0 14px 14px;padding:12px}
+.image-viewer-body img{display:block;max-width:100%;height:auto;margin:0 auto}
+
