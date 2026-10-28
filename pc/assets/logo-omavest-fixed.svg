@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 126" role="img" aria-label="OMAVEST">
+  <g transform="translate(52 5) scale(.72)">
+    <path d="M18 12 L48 70 L61 70 L36 12 Z" fill="#f4f4f2"/>
+    <path d="M75 5 C61 24 49 44 38 70 L53 70 C64 45 77 23 96 4 Z" fill="#f7bd16"/>
+    <circle cx="51" cy="17" r="8" fill="#347c64"/>
+    <path d="M60 69 L96 7 L83 69 Z" fill="#d89d05" opacity=".92"/>
+  </g>
+  <text x="110" y="113" text-anchor="middle" fill="#f6f7f7" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800" letter-spacing="6">OMA<tspan fill="#f7bd16">V</tspan><tspan fill="#d8dbde">EST</tspan></text>
+</svg>

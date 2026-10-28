@@ -1,0 +1,9 @@
+OMAVEST
+
+1) Extraia o arquivo ZIP.
+2) Dê dois cliques em index.html.
+3) Entre com:
+   E-mail: demo@omavest.com
+   Senha: 123456
+
+Também é possível criar uma conta local.

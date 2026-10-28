@@ -1,27 +1,27 @@
-# Dependências e builds
-node_modules/
+# .NET
 bin/
 obj/
-dist/
-.expo/
-
-# Banco local (recriado automaticamente)
 *.db
 *.db-shm
 *.db-wal
 
-# Credenciais - nunca versionar
+# Firebase / chaves
+**/service-account*.json
+**/firebase-config.js
 .env
 .env.*
-pc/js/firebase-config.js
-.firebaserc
+!.env.example
 
-# Gerados por testes
-__pycache__/
-tests/_saida/
-
-# Sistema/IDE
-Thumbs.db
-.DS_Store
+# IDE
+.vs/
 .idea/
 .vscode/
+
+# SO
+.DS_Store
+Thumbs.db
+
+# Pacotes/builds
+node_modules/
+dist/
+*.zip

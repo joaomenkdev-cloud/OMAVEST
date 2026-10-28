@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script>(function(){try{var t=localStorage.getItem("omavest_theme_v1")||"dark";document.documentElement.dataset.theme=(t==="light"?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})();</script><script>(function(){try{var a=JSON.parse(localStorage.getItem("omavest_a11y_v1")||"{}"),r=document.documentElement;if(a.fonte>0)r.setAttribute("data-a11y-fonte",a.fonte);["contraste","leitura","links","movimento","libras"].forEach(function(k){if(a[k])r.classList.add("a11y-"+k)})}catch(e){}})();</script>
+  <link rel="icon" type="image/png" href="../assets/favicon.png">
+  <title>OMAVEST • Entrar</title>
+  <link rel="stylesheet" href="../css/omavest.css">
+</head>
+<body class="login-page">
+  <button class="login-theme-toggle theme-toggle" data-theme-toggle type="button" aria-label="Alternar tema"></button>
+  <main class="login-card auth-card">
+    <img class="login-brand" src="../assets/logo-omavest-v13.png" alt="OMAVEST" width="180">
+    <div class="auth-tabs" role="tablist" aria-label="Acesso">
+      <button id="tabLogin" class="auth-tab active" type="button" role="tab" aria-selected="true" data-auth-mode="login">Entrar</button>
+      <button id="tabRegister" class="auth-tab" type="button" role="tab" aria-selected="false" data-auth-mode="register">Criar conta</button>
+    </div>
+
+    <div class="auth-copy">
+      <h1 id="authTitle">Bem-vindo de volta</h1>
+      <p id="authSubtitle">Entre para continuar seus estudos no protótipo OMAVEST.</p>
+    </div>
+
+    <form id="authForm" novalidate>
+      <div id="nameField" class="field auth-register-only hidden">
+        <label for="loginName">Nome</label>
+        <input id="loginName" autocomplete="name" placeholder="Seu nome">
+      </div>
+      <div class="field">
+        <label for="loginEmail">E-mail</label>
+        <input id="loginEmail" type="email" autocomplete="email" placeholder="voce@email.com" required>
+      </div>
+      <div class="field">
+        <label for="loginPassword">Senha</label>
+        <div class="password-wrap">
+          <input id="loginPassword" type="password" autocomplete="current-password" placeholder="Mínimo de 6 caracteres" required>
+          <button id="togglePassword" class="password-toggle" type="button" aria-label="Mostrar senha"><svg class="icon icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.8-7 10-7 10 7 10 7-3.8 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg><span>Mostrar</span></button>
+        </div>
+      </div>
+      <button id="authSubmit" class="primary-btn auth-submit" type="submit">Entrar</button>
+    </form>
+
+    <button id="demoFillBtn" class="ghost-btn demo-fill" type="button">Usar conta de demonstração</button>
+    <div class="demo-login-hint"><strong>Acesso demo</strong><br>demo@omavest.com &nbsp;•&nbsp; senha: 123456</div>
+    <div id="loginStatus" class="login-status" aria-live="polite"></div>
+    <p class="auth-note">As contas são salvas localmente no navegador. Nenhuma API externa é necessária.</p>
+  </main>
+  <script src="../js/demo-core.js"></script>
+  <script src="../js/demo-pages/login.js"></script>
+</body>
+</html>

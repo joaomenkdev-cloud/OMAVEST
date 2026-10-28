@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <script>(function(){try{var t=localStorage.getItem("omavest_theme_v1")||"dark";document.documentElement.dataset.theme=(t==="light"?"light":"dark")}catch(e){document.documentElement.dataset.theme="dark"}})();</script><script>(function(){try{var a=JSON.parse(localStorage.getItem("omavest_a11y_v1")||"{}"),r=document.documentElement;if(a.fonte>0)r.setAttribute("data-a11y-fonte",a.fonte);["contraste","leitura","links","movimento","libras"].forEach(function(k){if(a[k])r.classList.add("a11y-"+k)})}catch(e){}})();</script>
+  <link rel="icon" type="image/png" href="../assets/favicon.png"><title>OMAVEST • Apoiar</title><link rel="stylesheet" href="../css/omavest.css">
+</head>
+<body><div class="app-shell"><aside id="sidebar" class="sidebar"></aside><div class="main-column"><header id="topbar" class="topbar"></header><main class="page">
+  <section class="donation-hero"><div><h1>Apoie o OMAVEST</h1><p>Esta tela demonstra como uma futura área de apoio poderia ajudar a manter conteúdos educacionais gratuitos e a evolução da plataforma.</p></div><div class="donation-badge"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.6-10-9.1C.6 8.9 1.9 5.4 5.3 5c2-.2 3.7.9 4.7 2.3C11 5.9 12.7 4.8 14.7 5c3.4.4 4.7 3.9 3.3 6.9-2.5 4.5-10 9.1-10 9.1Z"/></svg></div></section>
+  <section class="donation-grid">
+    <article class="card"><h3>Escolha um valor demonstrativo</h3><p>Nenhuma cobrança é feita nesta versão offline.</p><div class="amount-options"><button class="amount-btn" data-amount="5">R$ 5</button><button class="amount-btn selected" data-amount="10">R$ 10</button><button class="amount-btn" data-amount="20">R$ 20</button><button class="amount-btn" data-amount="50">R$ 50</button></div><div class="donation-custom"><label for="customDonation">R$</label><input id="customDonation" type="number" min="1" step="1" placeholder="Outro valor" aria-label="Outro valor, em reais"></div><button id="supportBtn" class="primary-btn" type="button">Simular apoio</button><div class="prototype-note"><strong>Importante:</strong> este é um protótipo acadêmico. O botão apenas registra uma demonstração local e não gera PIX, boleto, cartão ou transferência.</div></article>
+    <article class="card"><h3>Histórico local</h3><p>Os apoios simulados ficam registrados somente neste navegador.</p><div id="donationHistory" class="donation-history"></div></article>
+  </section>
+</main></div></div><script src="../js/demo-core.js"></script><script src="../js/demo-pages/doacoes.js"></script></body></html>

@@ -1,0 +1,20 @@
+(async function(){
+const {mountShell,toast,apiOr,post}=window.OMAVEST;await mountShell('cronograma.html');
+const days=[[1,'Segunda'],[2,'Terça'],[3,'Quarta'],[4,'Quinta'],[5,'Sexta'],[6,'Sábado'],[0,'Domingo']];
+const subjects=['Matemática','Português','História','Biologia','Física','Química','Geografia','Redação'];
+const defaultSlots={1:{materia:'Matemática',inicio:'18:00',duracao:60},2:{materia:'Português',inicio:'18:00',duracao:60},3:{materia:'Biologia',inicio:'18:00',duracao:60},4:{materia:'Física',inicio:'18:00',duracao:60},5:{materia:'Redação',inicio:'18:00',duracao:90}};
+const editor=document.querySelector('#weeklyScheduleEditor');
+function renderEditor(saved=[]){
+  const byDay={};(saved||[]).forEach(s=>byDay[Number(s.diaSemana)]={materia:s.materia||s.disciplina,inicio:s.inicio||s.horaInicio||'18:00',duracao:Number(s.duracaoMinutos||s.duracao||60)});
+  editor.innerHTML=days.map(([day,label])=>{const exists=Object.prototype.hasOwnProperty.call(byDay,day),s=byDay[day]||defaultSlots[day]||{materia:'Matemática',inicio:'18:00',duracao:60};const enabled=exists||(saved.length===0&&!!defaultSlots[day]);return `<article class="weekly-slot ${enabled?'enabled':''}" data-day="${day}"><div class="weekly-slot-head"><strong>${label}</strong><label class="slot-toggle"><input class="slot-enabled" type="checkbox" ${enabled?'checked':''}><span>${enabled?'Estudar':'Livre'}</span></label></div><div class="field compact-field"><label>Matéria</label><select class="slot-subject" ${enabled?'':'disabled'}>${subjects.map(x=>`<option ${x===s.materia?'selected':''}>${x}</option>`).join('')}</select></div><div class="field compact-field"><label>Início</label><input class="slot-start" type="time" value="${s.inicio}" ${enabled?'':'disabled'}></div><div class="field compact-field"><label>Duração</label><select class="slot-duration" ${enabled?'':'disabled'}><option value="30" ${s.duracao===30?'selected':''}>30 min</option><option value="45" ${s.duracao===45?'selected':''}>45 min</option><option value="60" ${s.duracao===60?'selected':''}>1 hora</option><option value="90" ${s.duracao===90?'selected':''}>1h30</option><option value="120" ${s.duracao===120?'selected':''}>2 horas</option><option value="180" ${s.duracao===180?'selected':''}>3 horas</option></select></div></article>`}).join('');
+  editor.querySelectorAll('.slot-enabled').forEach(ch=>ch.addEventListener('change',()=>{const card=ch.closest('.weekly-slot'),on=ch.checked;card.classList.toggle('enabled',on);card.querySelectorAll('select,input[type=time]').forEach(x=>x.disabled=!on);card.querySelector('.slot-toggle span').textContent=on?'Estudar':'Livre';}));
+}
+function getSlots(){return [...editor.querySelectorAll('.weekly-slot')].filter(c=>c.querySelector('.slot-enabled').checked).map(c=>({diaSemana:+c.dataset.day,materia:c.querySelector('.slot-subject').value,inicio:c.querySelector('.slot-start').value||'18:00',duracaoMinutos:+c.querySelector('.slot-duration').value}));}
+const initial=await apiOr('/api/cronograma',{data:[],plano:null});
+const date=new Date();date.setDate(date.getDate()+128);
+document.querySelector('#examDate').value=initial.plano?.dataProva||date.toISOString().slice(0,10);
+document.querySelector('#vestibular').value=initial.plano?.vestibular||'ENEM';
+renderEditor(initial.plano?.weeklySlots||[]);
+document.querySelector('#clearWeek').onclick=()=>{renderEditor([]);editor.querySelectorAll('.slot-enabled').forEach(x=>{x.checked=false;x.dispatchEvent(new Event('change'));});document.querySelector('#planSavedStatus').classList.add('hidden');};
+document.querySelector('#planForm').onsubmit=async e=>{e.preventDefault();const slots=getSlots();if(!slots.length){toast('Escolha pelo menos um dia de estudo.');return}await post('/api/cronograma/planejamento',{vestibular:document.querySelector('#vestibular').value,dataProva:document.querySelector('#examDate').value,weeklySlots:slots});document.querySelector('#planSavedStatus').classList.remove('hidden');toast('Planejamento semanal salvo.');};
+})().catch(e=>{console.error(e);window.OMAVEST?.toast('Erro no cronograma: '+e.message)});
