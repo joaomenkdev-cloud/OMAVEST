@@ -15,6 +15,10 @@ Evitar frases como “IA treinada nos critérios oficiais do INEP” se não hou
 
 > A plataforma utiliza inteligência artificial configurada para fornecer feedback educacional de redações com base em critérios de avaliação fornecidos no contexto do sistema. A pontuação apresentada é uma estimativa de estudo e não substitui a correção oficial.
 
+## Sugestões para trabalhos futuros
+
+- **Flashcards de revisão:** a área de flashcards foi retirada do protótipo (v16) para manter o foco em questões, simulados e redação. Fica como sugestão para uma próxima versão: cartões gerados a partir das questões que o estudante errou, com revisão espaçada (o cartão volta em 1, 3 e 7 dias conforme o acerto).
+
 ## Escopo removido
 
 Não descrever o OMAVEST como instituição aplicadora de vestibular. Fluxos de boleto, matrícula, local de prova e resultado de processo seletivo foram retirados da nova arquitetura porque o objetivo da plataforma é apoiar a preparação do estudante.
